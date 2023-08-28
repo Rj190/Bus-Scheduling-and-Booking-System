@@ -1,4 +1,4 @@
-package com.crimsonlogic.com.busschedulingandbookingsystem;
+package com.crimsonlogic.busschedulingandbookingsystem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
