@@ -23,10 +23,7 @@ public class SeatServiceImpl implements ISeatService {
 		return seatRepo.findById(seatId).get();
 	}
 
-	@Override
-	public Seat insertSeat(Seat seat) {
-		return  seatRepo.save(seat);
-	}
+	
 
 	@Override
 	public void deleteSeatById(int seatId) {
@@ -47,6 +44,12 @@ public class SeatServiceImpl implements ISeatService {
 			  }
 			  return existingSeat; 
 		  }
+	}
+
+	@Override
+	public Seat insertSeat(Seat seat) {
+		
+		 return seatRepo.save(seat);
 	}
 }
 			  

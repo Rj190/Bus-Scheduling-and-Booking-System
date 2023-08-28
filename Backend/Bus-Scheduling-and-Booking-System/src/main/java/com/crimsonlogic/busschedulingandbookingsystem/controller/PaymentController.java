@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.crimsonlogic.busschedulingandbookingsystem.entity.Payment;
+import com.crimsonlogic.busschedulingandbookingsystem.entity.Seat;
 import com.crimsonlogic.busschedulingandbookingsystem.service.IPaymentService;
 
 @Controller
@@ -32,7 +33,7 @@ public class PaymentController {
 	public List<Payment> viewAllPayments(){
 return payService.viewAllPayments();
 }
-	@PostMapping("/insertpayment")   
+	@PostMapping("/insertpatment")   
     public Payment insertPayment(@RequestBody Payment payment) {
 	return payService.insertPayment(payment);
 	}
