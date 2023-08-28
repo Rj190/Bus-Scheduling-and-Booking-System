@@ -42,7 +42,7 @@ return jourService.viewAllJourneys();
 			jourService.deleteJourneyById(journeyid);
 		}
 	  @PutMapping("/updatejourneysbyid/{jourid}")
-	  	public Journey updateStudentById(@PathVariable("jourid")int journeyId,
+	  	public Journey updateJourneyById(@PathVariable("jourid")int journeyId,
 	  			   @RequestBody Journey newJourney)   {
 	  		return jourService.updateJourneyById(journeyId,newJourney);
 	  	}
