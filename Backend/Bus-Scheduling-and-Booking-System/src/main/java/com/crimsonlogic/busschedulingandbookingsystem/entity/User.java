@@ -2,6 +2,8 @@ package com.crimsonlogic.busschedulingandbookingsystem.entity;
 
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Collection;
 
@@ -12,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Data
+@Getter
+@Setter
 @Table(name = "user_info")
 public class User implements UserDetails{
     @Id
