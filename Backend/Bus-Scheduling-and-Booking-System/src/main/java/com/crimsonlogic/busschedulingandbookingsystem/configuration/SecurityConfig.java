@@ -37,7 +37,7 @@ public class SecurityConfig {
             .antMatchers("/api/users/list").authenticated()
             .antMatchers("/auth/login").permitAll().antMatchers("/api/users/create-user")
             .permitAll()//.antMatchers("http://localhost:8080/swagger-ui/").permitAll()
-            .anyRequest().authenticated()
+            .anyRequest().authenticated()//.permitAll()
             .and().exceptionHandling().authenticationEntryPoint(point)
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
