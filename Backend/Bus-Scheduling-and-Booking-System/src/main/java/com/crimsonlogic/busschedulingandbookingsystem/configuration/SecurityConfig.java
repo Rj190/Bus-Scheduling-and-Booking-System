@@ -34,10 +34,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .authorizeRequests()
-            .antMatchers("/api/users/list").authenticated()
+//            .antMatchers("/api/users/list").authenticated()
             .antMatchers("/auth/login").permitAll().antMatchers("/api/users/create-user")
             .permitAll()//.antMatchers("http://localhost:8080/swagger-ui/").permitAll()
-            .anyRequest().authenticated()//.permitAll()
+				.anyRequest()
+				/* .authenticated() */.permitAll()
             .and().exceptionHandling().authenticationEntryPoint(point)
             .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);

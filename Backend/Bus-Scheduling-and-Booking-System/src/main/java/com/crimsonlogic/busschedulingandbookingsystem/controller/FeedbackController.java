@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.crimsonlogic.busschedulingandbookingsystem.entity.Feedback;
 import com.crimsonlogic.busschedulingandbookingsystem.service.IFeedbackService;
+import com.crimsonlogic.busschedulingandbookingsystem.service.IUserService;
 
 import java.util.List;
 
@@ -14,6 +15,9 @@ public class FeedbackController {
 	
 	@Autowired
     private IFeedbackService feedbackServc;
+	
+	@Autowired
+	private IUserService userService;
 
 
     @GetMapping
@@ -28,6 +32,7 @@ public class FeedbackController {
 
     @PostMapping("/createfeedback")
     public Feedback createFeedback(@RequestBody Feedback feedback) {
+    	userService.getUserById(feedback.getUser().getUserID());
         return feedbackServc.createFeedback(feedback);
     }
 

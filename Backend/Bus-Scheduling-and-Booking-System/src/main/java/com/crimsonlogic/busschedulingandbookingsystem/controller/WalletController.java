@@ -2,6 +2,8 @@ package com.crimsonlogic.busschedulingandbookingsystem.controller;
 
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.crimsonlogic.busschedulingandbookingsystem.entity.User;
 import com.crimsonlogic.busschedulingandbookingsystem.entity.Wallet;
+import com.crimsonlogic.busschedulingandbookingsystem.exception.ResourceNotFoundException;
+import com.crimsonlogic.busschedulingandbookingsystem.service.IUserService;
 import com.crimsonlogic.busschedulingandbookingsystem.service.IWalletService;
 
 @RestController
@@ -20,6 +25,9 @@ import com.crimsonlogic.busschedulingandbookingsystem.service.IWalletService;
 public class WalletController {
     @Autowired
     private IWalletService walletServ;
+    
+	@Autowired
+	private IUserService userService;
     
     @GetMapping
     public List<Wallet> getAllWallets() {
@@ -31,8 +39,15 @@ public class WalletController {
         return walletServ.getWalletById(id);
     }
     
-    @PostMapping("/createwallet")
-    public Wallet createWallet(@RequestBody Wallet wallet) {
+    @PostMapping("/createwallet/{username}")
+    public Wallet createWallet(@PathVariable("username") String userName ,@RequestBody Wallet wallet) {
+    	User user = userService.findByUsername(userName).get();
+    		Wallet exWallet = walletServ.getWalletByUser(user);
+    		if(exWallet != null)
+    			
+    			throw new RuntimeErrorException(null, "Wallet Already existing..");
+    		else
+    			
         return walletServ.createWallet(wallet);
     }
     

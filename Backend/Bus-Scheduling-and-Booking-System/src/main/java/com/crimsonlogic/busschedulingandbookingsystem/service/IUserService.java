@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.crimsonlogic.busschedulingandbookingsystem.entity.User;
+import com.crimsonlogic.busschedulingandbookingsystem.exception.ResourceNotFoundException;
 
 public interface IUserService {
 	

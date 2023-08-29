@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.crimsonlogic.busschedulingandbookingsystem.entity.User;
 import com.crimsonlogic.busschedulingandbookingsystem.entity.Wallet;
+import com.crimsonlogic.busschedulingandbookingsystem.exception.ResourceNotFoundException;
 import com.crimsonlogic.busschedulingandbookingsystem.repository.IWalletRepository;
 
 @Service
@@ -39,5 +41,10 @@ public class WalletServiceImpl implements IWalletService{
     public void deleteWalletbyId(Integer id) {
     	walletRepo.deleteById(id);
     }
+
+	@Override
+	public Wallet getWalletByUser(User user) {
+		return walletRepo.findByUser(user).orElseThrow(() -> new ResourceNotFoundException("Wallet", "userName", user.getUsername()));
+	}
 }
 
