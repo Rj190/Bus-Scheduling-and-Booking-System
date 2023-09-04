@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.crimsonlogic.busschedulingandbookingsystem.entity.Bus;
 import com.crimsonlogic.busschedulingandbookingsystem.entity.Seat;
 import com.crimsonlogic.busschedulingandbookingsystem.repository.ISeatRepository;
 @Service
@@ -50,6 +50,11 @@ public class SeatServiceImpl implements ISeatService {
 	public Seat insertSeat(Seat seat) {
 		
 		 return seatRepo.save(seat);
+	}
+
+	@Override
+	public List<Seat> getSeatsByBus(Bus bus) {
+		return seatRepo.findAllByBus(bus);
 	}
 }
 			  

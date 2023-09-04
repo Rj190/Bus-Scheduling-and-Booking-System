@@ -1,53 +1,50 @@
 package com.crimsonlogic.busschedulingandbookingsystem.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name="seat_info")
+@Table(name = "seat_info")
+@AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class Seat {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer seatId;
-	@Column(name="seatnumber")
-	 private String seatNumber;
-	@Column(name="seatavailabilitystatus")
-	 private String seatAvailabilityStatus;
-	public Seat() {
-		super();
-	}
-	public Seat(Integer seatId, String seatNumber, String seatAvailabilityStatus) {
-		super();
-		this.seatId = seatId;
-		this.seatNumber = seatNumber;
-		this.seatAvailabilityStatus = seatAvailabilityStatus;
-	}
+
+	@NotBlank(message = "Seat number is required")
+	@Size(max = 3, message = "Seat number can have at most 10 characters")
+	private String seatNumber;
+
+	private String seatAvailabilityStatus;
+
+	@ManyToOne
+	@JoinColumn(name = "busId_fk", nullable = false)
+	@JsonIgnoreProperties("seats")
+	private Bus bus;
 	
-	public Integer getSeatId() {
-		return seatId;
-	}
-	public void setSeatId(Integer seatId) {
-		this.seatId = seatId;
-	}
-	public String getSeatNumber() {
-		return seatNumber;
-	}
-	public void setSeatNumber(String seatNumber) {
-		this.seatNumber = seatNumber;
-	}
-	public String getSeatAvailabilityStatus() {
-		return seatAvailabilityStatus;
-	}
-	public void setSeatAvailabilityStatus(String seatAvailabilityStatus) {
-		this.seatAvailabilityStatus = seatAvailabilityStatus;
-	}
-	@Override
-	public String toString() {
-		return "Seat [seatId=" + seatId + ", seatNumber=" + seatNumber + ", seatAvailabilityStatus="
-				+ seatAvailabilityStatus + "]";
-	}
+	@OneToOne(mappedBy = "seat")
+	@JsonIgnoreProperties("seat")
+	private BookingDetails bookingDetails;
+
 }

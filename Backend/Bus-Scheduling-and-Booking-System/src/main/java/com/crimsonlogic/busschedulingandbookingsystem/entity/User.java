@@ -1,19 +1,28 @@
 package com.crimsonlogic.busschedulingandbookingsystem.entity;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.*;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import io.jsonwebtoken.lang.Collections;
 
 @Entity
 @Table(name = "user_info")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements UserDetails{
     @Id
     private String userID;
@@ -27,10 +36,15 @@ public class User implements UserDetails{
     private String userRole; // Role can be "User" or "Admin"
     
     
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
-	}
+    @OneToMany(mappedBy = "user")
+    private List<Booking> bookings ;
+    
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + userRole);  
+        return Arrays.asList(authority);
+    }
+    
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -94,6 +108,14 @@ public class User implements UserDetails{
 	}
 	public void setUserRole(String userRole) {
 		this.userRole = userRole;
+	}
+
+	public List<Booking> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(List<Booking> bookings) {
+		this.bookings = bookings;
 	}
 	
 	

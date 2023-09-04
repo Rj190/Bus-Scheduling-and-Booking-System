@@ -1,102 +1,54 @@
 package com.crimsonlogic.busschedulingandbookingsystem.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+
+import java.util.List;
+
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "routedetails")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Route {
  
+
 	@Id
-	@Column(name="routeid")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer routeId;
 	
-	@Column(name ="departure city")
-	@Pattern(regexp = "^[a-zA-Z]+$")
-	private String departureCity;
-	
-	@Column(name ="arrival city")
-	@Pattern(regexp = "^[a-zA-Z]+$")
-	private String arrivalCity;
-	
-	@Column(name ="distance")
-	private Integer distance;
-	
-	@Column(name ="duration")
-	private Integer duration;
-	
-	@Column(name ="fare")
-	private float fare;
+	@NotBlank(message = "Departure city is required")
+    @Size(min = 2, max = 100, message = "Departure city must be between 2 and 100 characters")
+    private String departureCity;
 
-	public Route() {
-		super();
-	}
+    @NotBlank(message = "Arrival city is required")
+    @Size(min = 2, max = 100, message = "Arrival city must be between 2 and 100 characters")
+    private String arrivalCity;
 
-	public Route(Integer routeId, @Pattern(regexp = "^[a-zA-Z]+$") String departureCity,
-			@Pattern(regexp = "^[a-zA-Z]+$") String arrivalCity, Integer distance, Integer duration, float fare) {
-		super();
-		this.routeId = routeId;
-		this.departureCity = departureCity;
-		this.arrivalCity = arrivalCity;
-		this.distance = distance;
-		this.duration = duration;
-		this.fare = fare;
-	}
+    @Min(value = 1, message = "Distance must be at least 1")
+    private Integer distance;
 
-	public Integer getRouteId() {
-		return routeId;
-	}
+    @Min(value = 1, message = "Duration must be at least 1")
+    private Integer duration;
+    
+    private double fare;
+    
+    @OneToMany(mappedBy = "route")
+    @JsonIgnoreProperties("route")
+    private List<Journey> journeys ;
+    
 
-	public void setRouteId(Integer routeId) {
-		this.routeId = routeId;
-	}
-
-	public String getDepartureCity() {
-		return departureCity;
-	}
-
-	public void setDepartureCity(String departureCity) {
-		this.departureCity = departureCity;
-	}
-
-	public String getArrivalCity() {
-		return arrivalCity;
-	}
-
-	public void setArrivalCity(String arrivalCity) {
-		this.arrivalCity = arrivalCity;
-	}
-
-	public Integer getDistance() {
-		return distance;
-	}
-
-	public void setDistance(Integer distance) {
-		this.distance = distance;
-	}
-
-	public Integer getDuration() {
-		return duration;
-	}
-
-	public void setDuration(Integer duration) {
-		this.duration = duration;
-	}
-
-	public float getFare() {
-		return fare;
-	}
-
-	public void setFare(float fare) {
-		this.fare = fare;
-	}
-
-	@Override
-	public String toString() {
-		return "Route [routeId=" + routeId + ", departureCity=" + departureCity + ", arrivalCity=" + arrivalCity
-				+ ", distance=" + distance + ", duration=" + duration + ", fare=" + fare + "]";
-	}
 }

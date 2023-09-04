@@ -2,6 +2,7 @@ package com.crimsonlogic.busschedulingandbookingsystem.service;
 
 import java.util.List;
 
+import com.crimsonlogic.busschedulingandbookingsystem.entity.Bus;
 import com.crimsonlogic.busschedulingandbookingsystem.entity.Seat;
 
 public interface ISeatService {
@@ -10,4 +11,5 @@ public interface ISeatService {
 	public Seat insertSeat(Seat seat); 
 	public void deleteSeatById(int seatId);
 	public Seat updateSeatById(int seatId,Seat seat);
+	List<Seat> getSeatsByBus(Bus bus);
 }

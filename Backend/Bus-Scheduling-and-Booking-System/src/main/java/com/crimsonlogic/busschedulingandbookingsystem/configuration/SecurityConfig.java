@@ -18,47 +18,63 @@ import com.crimsonlogic.busschedulingandbookingsystem.security.JwtAuthentication
 @Configuration
 public class SecurityConfig {
 
-    @Autowired
-    private JwtAuthenticationEntryPoint point;
+	@Autowired
+	private JwtAuthenticationEntryPoint point;
 
-    @Autowired
-    private JwtAuthenticationFilter filter;
-    
-    @Autowired
-    private UserDetailsService userDetailsService;
-    
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+	@Autowired
+	private JwtAuthenticationFilter filter;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeRequests()
-//            .antMatchers("/api/users/list").authenticated()
-            .antMatchers("/auth/login").permitAll().antMatchers("/api/users/create-user")
-            .permitAll()//.antMatchers("http://localhost:8080/swagger-ui/").permitAll()
-				.anyRequest()
-				/* .authenticated() */.permitAll()
-            .and().exceptionHandling().authenticationEntryPoint(point)
-            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-        
-        
-        //  .antMatchers("/api/users/list").hasRole("Admin").anyRequest().authenticated()
+	@Autowired
+	private UserDetailsService userDetailsService;
 
-        return http.build();
-    }
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception {
-        return builder.getAuthenticationManager();
-    }
-    
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {
-    	DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-    	authenticationProvider.setUserDetailsService(userDetailsService);
-    	authenticationProvider.setPasswordEncoder(passwordEncoder);
-    	return authenticationProvider; 
-    }
+	/*
+	 * @Bean public SecurityFilterChain securityFilterChain(HttpSecurity http)
+	 * throws Exception {
+	 * http.csrf().disable().authorizeRequests().antMatchers("/auth/login").
+	 * permitAll() .antMatchers("/api/users/create-user").permitAll().antMatchers(
+	 * "/api/users/**").hasRole("Admin")
+	 * .anyRequest().authenticated().and().exceptionHandling().
+	 * authenticationEntryPoint(point).and()
+	 * .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
+	 * and() .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+	 * return http.build(); }
+	 */
+	
+	
+	
+	   @Bean
+	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	        http.csrf().disable()
+	            .authorizeRequests()
+//	            .antMatchers("/api/users/list").authenticated()
+	            .antMatchers("/auth/login").permitAll().antMatchers("/api/users/create-user")
+	            .permitAll()//.antMatchers("http://localhost:8080/swagger-ui/").permitAll()
+					.anyRequest()
+					/* .authenticated() */.permitAll()
+	            .and().exceptionHandling().authenticationEntryPoint(point)
+	            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+	            .and().addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+	        
+	        
+	        //  .antMatchers("/api/users/list").hasRole("Admin").anyRequest().authenticated()
+
+	        return http.build();
+	    }
+	
+	
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration builder) throws Exception {
+		return builder.getAuthenticationManager();
+	}
+
+	@Bean
+	public DaoAuthenticationProvider daoAuthenticationProvider() {
+		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+		authenticationProvider.setUserDetailsService(userDetailsService);
+		authenticationProvider.setPasswordEncoder(passwordEncoder);
+		return authenticationProvider;
+	}
 }

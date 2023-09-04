@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.crimsonlogic.busschedulingandbookingsystem.entity.Passenger;
+import com.crimsonlogic.busschedulingandbookingsystem.exception.ResourceNotFoundException;
 import com.crimsonlogic.busschedulingandbookingsystem.repository.IPassengerRepository;
 
 
@@ -21,7 +22,7 @@ public class PassengerServiceImpl implements IPassengerService{
     
     @Override
     public Passenger getPassengerById(Integer id) {
-        return passRepo.findById(id).get();
+        return passRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Passenger", "Passenger Id", id));
     }
     
     @Override

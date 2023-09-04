@@ -10,7 +10,8 @@ public interface IBusService {
 	
 	public List <Bus> getAllBuses();
 	public Bus saveBus(Bus bus);
-	public Bus updateBus(Bus bus) throws ResourceNotFoundException;
 	public Optional<Bus> getBusById(Integer busId);
-	public void deleteBusById(Integer busId);
+	public String deleteBusById(Integer busId);
+	Bus updateBus(Bus bus, Integer busID);
+
 }

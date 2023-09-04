@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,23 +16,24 @@ public class Passenger {
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Integer passengerId;
 
-	    @Column(name = "passengername")
+
 	    private String passengerName;
 	    
-	    @Column(name = "passengerlstname")
 	    private String passengerLastName;
 	    
-	    @Column(name = "passengerage")
+
 	    private int passengerAge;
 	    
-	    @Column(name = "passengergender")
 	    private String passengerGender;
-	    
-	    @Column(name = "passengermobno")
+
 	    private String passengerMobileNo;
 	    
-	    @Column(name = "passenegeremail")
+	   
 	    private String passengerEmail;
+	    
+	    
+	    @OneToOne(mappedBy = "passenger")
+		private BookingDetails bookingDetails;
 
 	  
 	    //default constructors
@@ -54,6 +56,24 @@ public class Passenger {
 			this.passengerMobileNo = passengerMobileNo;
 			this.passengerEmail = passengerEmail;
 		}
+
+		
+		
+
+		public Passenger(Integer passengerId, String passengerName, String passengerLastName, int passengerAge,
+				String passengerGender, String passengerMobileNo, String passengerEmail,
+				BookingDetails bookingDetails) {
+			super();
+			this.passengerId = passengerId;
+			this.passengerName = passengerName;
+			this.passengerLastName = passengerLastName;
+			this.passengerAge = passengerAge;
+			this.passengerGender = passengerGender;
+			this.passengerMobileNo = passengerMobileNo;
+			this.passengerEmail = passengerEmail;
+			this.bookingDetails = bookingDetails;
+		}
+
 
 
 		//getters and setters
@@ -113,6 +133,18 @@ public class Passenger {
 		}
 
 		
+		public BookingDetails getBookingDetails() {
+			return bookingDetails;
+		}
+
+
+
+		public void setBookingDetails(BookingDetails bookingDetails) {
+			this.bookingDetails = bookingDetails;
+		}
+
+
+
 		//to String()
 		@Override
 		public String toString() {
@@ -121,6 +153,9 @@ public class Passenger {
 					+ ", passengerGender=" + passengerGender + ", passengerMobileNo=" + passengerMobileNo
 					+ ", passengerEmail=" + passengerEmail + "]";
 		}   
+		
+		
+		
 	    
 	}
 

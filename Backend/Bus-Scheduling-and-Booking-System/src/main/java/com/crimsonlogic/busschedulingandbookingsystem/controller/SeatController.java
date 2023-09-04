@@ -1,54 +1,114 @@
 package com.crimsonlogic.busschedulingandbookingsystem.controller;
 
-
-
-import java.util.List;
+import com.crimsonlogic.busschedulingandbookingsystem.entity.Seat;
+import com.crimsonlogic.busschedulingandbookingsystem.entity.Bus;
+import com.crimsonlogic.busschedulingandbookingsystem.exception.ResourceNotFoundException;
+import com.crimsonlogic.busschedulingandbookingsystem.exception.RouteNotFoundException;
+import com.crimsonlogic.busschedulingandbookingsystem.service.ISeatService;
+import com.crimsonlogic.busschedulingandbookingsystem.service.IBusService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
 
-import com.crimsonlogic.busschedulingandbookingsystem.entity.Seat;
-import com.crimsonlogic.busschedulingandbookingsystem.service.ISeatService;
-
-@Controller
+@CrossOrigin("*")
 @RestController
-@RequestMapping("/seat")
+@RequestMapping("api/seat")
 public class SeatController {
-	@Autowired
-	private ISeatService seatService;
-	
-	
-	@GetMapping()
-	@RequestMapping("/viewallseats")
-	public List<Seat> viewAllSeats(){
-return seatService.viewAllSeats();
-}
-	@PostMapping("/insertseat")   
-    public Seat insertSeat(@RequestBody Seat seat) {
-	return seatService.insertSeat(seat);
-	}
-	  @GetMapping("/getseatsbyid/{seatid}")
-			public Seat  viewSeatById(@PathVariable("seatid")int seatId)  {
-				return seatService.viewSeatById(seatId);
-			}
-	  @DeleteMapping("/deleteseat/{seatid}")
-		public void deleteSeat(@PathVariable("seatid")int seatid) {
-			seatService.deleteSeatById(seatid);
-		}
-	  @PutMapping("/updateseatsbyid/{seatid}")
-	  	public Seat updateSeatById(@PathVariable("seatid")int seatId,
-	  			   @RequestBody Seat newSeat)   {
-	  		return seatService.updateSeatById(seatId,newSeat);
-	  	}
 
-}
+    @Autowired
+    private ISeatService seatService;
 
+    @Autowired
+    private IBusService busService;
+
+    @GetMapping("/viewallseats")
+    public List<Seat> viewAllSeats() {
+        return seatService.viewAllSeats();
+    }
+
+    @PostMapping("/insertseat/{busid}")
+    public ResponseEntity<?> insertSeat(@PathVariable("busid") Integer busId, @Valid @RequestBody Seat seat,
+                                        BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // Handle validation errors
+            StringBuilder errorMessage = new StringBuilder();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                errorMessage.append(fieldError.getField()).append(": ").append(fieldError.getDefaultMessage()).append("; ");
+            }
+            return ResponseEntity.badRequest().body(errorMessage.toString());
+        }
+
+        Bus bus = busService.getBusById(busId)
+                .orElseThrow(() -> new ResourceNotFoundException("Bus", "Bus Id", busId));
+
+        List<Seat> seats = seatService.getSeatsByBus(bus);
+        if (!seats.isEmpty()) {
+            return ResponseEntity.badRequest().body("Bus seats already exist.");
+        }
+
+        Seat savedSeat = seatService.insertSeat(seat);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedSeat);
+    }
+
+    @GetMapping("/getseatsbyid/{seatid}")
+    public ResponseEntity<?> viewSeatById(@PathVariable("seatid") int seatId) {
+        try {
+            Seat foundSeat = seatService.viewSeatById(seatId);
+            return ResponseEntity.ok(foundSeat);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/deleteseat/{seatid}")
+    public ResponseEntity<?> deleteSeat(@PathVariable("seatid") int seatId) {
+        try {
+            seatService.deleteSeatById(seatId);
+            return ResponseEntity.ok("Seat deleted successfully.");
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/updateseatsbyid/{seatid}")
+    public ResponseEntity<?> updateSeatById(@PathVariable("seatid") int seatId, @Valid @RequestBody Seat newSeat,
+                                            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // Handle validation errors
+            StringBuilder errorMessage = new StringBuilder();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                errorMessage.append(fieldError.getField()).append(": ").append(fieldError.getDefaultMessage()).append("; ");
+            }
+            return ResponseEntity.badRequest().body(errorMessage.toString());
+        }
+
+        try {
+            Seat updatedSeat = seatService.updateSeatById(seatId, newSeat);
+            return ResponseEntity.ok(updatedSeat);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    
+    // Handle custom exceptions using @ExceptionHandler
+    @ExceptionHandler(RouteNotFoundException.class)
+    public ResponseEntity<String> handleRouteNotFoundException(RouteNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+
+
+    // Handle other exceptions if needed
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGeneralException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+    }
+}

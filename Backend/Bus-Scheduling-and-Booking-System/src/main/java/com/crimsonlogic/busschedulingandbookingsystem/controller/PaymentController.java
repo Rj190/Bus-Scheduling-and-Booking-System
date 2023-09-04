@@ -51,8 +51,8 @@ public class PaymentController {
 	}
 
 	@GetMapping("/getpaymentsbyid/{payid}")
-	public Payment viewPaymentById(@PathVariable("payid") int paymentId) {
-		return payService.viewPaymentById(paymentId);
+	public Payment viewPaymentById(@PathVariable("payid") Integer paymentId) {
+		return payService.viewPaymentById(paymentId).orElseThrow(() -> new ResourceNotFoundException("Payment", "PaymentId",paymentId));
 	}
 
 	@DeleteMapping("/deletepayment/{payid}")
