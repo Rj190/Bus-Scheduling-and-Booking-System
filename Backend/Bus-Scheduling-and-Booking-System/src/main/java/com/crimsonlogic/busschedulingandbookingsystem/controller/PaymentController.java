@@ -45,7 +45,7 @@ public class PaymentController {
 	public Payment insertPayment(@PathVariable("user") String userName, @RequestBody Payment payment) {
 		User user = userService.findByUsername(userName)
 				.orElseThrow(() -> new ResourceNotFoundException("User", "userName", userName));
-		Wallet wallet = walletService.getWalletByUser(user);
+		Wallet wallet = user.getWallet();
 		payment.setWallet(wallet);
 		return payService.insertPayment(payment);
 	}

@@ -16,7 +16,7 @@ import lombok.ToString;
 public class JwtRequest {
 
 
-	private String userName;
+	private String username;
 
 	private String password;
 }

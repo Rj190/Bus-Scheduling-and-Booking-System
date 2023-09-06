@@ -1,0 +1,88 @@
+/* RegistrationForm.css */
+
+/* Container styles */
+.registration-container {
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 1%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;;
+}
+
+/* Form styles */
+form {
+    padding: 20px;
+}
+
+/* Header styles */
+.text-center {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Icon styles */
+.fa-user-plus {
+    font-size: 3rem;
+    color: #007BFF;
+}
+
+/* Label styles */
+form label {
+    font-weight: bold;
+}
+
+/* Input field styles */
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form input[type="tel"],
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Button styles */
+.btn-primary {
+    display: block;
+    margin: 0 auto;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 7rem;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Additional styles for specific form elements */
+/* Adjust these styles as needed */
+
+/* Username and Password input labels */
+#username label,
+#password label {
+    color: #007BFF;
+}
+
+/* Submit button */
+#submit-button {
+    margin-top: 20px;
+}
+
+.error {
+    margin: 0%;
+    color: red;
+}
+.required {
+    color: red;
+}

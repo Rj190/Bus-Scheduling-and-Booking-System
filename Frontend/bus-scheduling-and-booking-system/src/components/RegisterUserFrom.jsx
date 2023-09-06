@@ -1,95 +1,222 @@
-// UserForm.js
-import React from 'react';
-import { Form, Button, Col, Row,Container } from 'react-bootstrap';
-import UserService from '../services/User.service'
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from 'react';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faUserPlus,
+    faUser,
+    faLock,
+    faEnvelope,
+    faPhone,
+    faUserTag,
+} from '@fortawesome/free-solid-svg-icons';
+import { Formik, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import UserService from '../services/User.service';
 
-const validationSchema = yup.object({
-  username: yup.string().required('Username is required'),
-  password: yup.string().required('Password is required'),
-  firstName: yup.string().required('First Name is required'),
-  lastName: yup.string().required('Last Name is required'),
-  email: yup.string().email('Invalid email').required('Email is required'),
-  contactNumber: yup.string().required('Contact Number is required'),
-  userRole: yup.string().required('User Role is required'),
-});
+import Modal from 'antd/es/modal/index';
 
-const RegisterUserForm = () => {
-  const formik = useFormik({
-    initialValues: {
-      username: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      contactNumber: '',
-      userRole: '',
-    },
-    validationSchema: validationSchema,
-    onSubmit: async (values, { resetForm }) => {
-      try {
-        const createdUser = await UserService.createUser(values);
-        // Display success notification
-        toast.success('User created successfully');
-        resetForm();
-      } catch (error) {
-        // Display error notification
-        toast.error('Error creating user');
-        console.error('Error creating user:', error);
-      }
-    },
-  });
+import '../css/RegistrationForm.css'; // Import your CSS file here
+import { useNavigate } from 'react-router-dom';
+import WalletService from '../services/Wallet.Service';
 
-  return (
-        <Container>
-          <h2 className="text-center mb-4">User Registration</h2>
-          <Form>
-            <Row>
-              <Col md={6}>
-                <Form.Group controlId="username">
-                  <Form.Label>Username</Form.Label>
-                  <Form.Control type="text" placeholder="Enter username" />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group controlId="password">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Enter password" />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Form.Group controlId="firstName">
-              <Form.Label>First Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter first name" />
-            </Form.Group>
-            <Form.Group controlId="lastName">
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter last name" />
-            </Form.Group>
-            <Form.Group controlId="email">
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
-            </Form.Group>
-            <Form.Group controlId="contactNumber">
-              <Form.Label>Contact Number</Form.Label>
-              <Form.Control type="tel" placeholder="Enter contact number" />
-            </Form.Group>
-            <Form.Group controlId="userRole">
-              <Form.Label>User Role</Form.Label>
-              <Form.Control as="select">
-                <option>Admin</option>
-                <option>User</option>
-              </Form.Control>
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Register
-            </Button>
-          </Form>
+const RegistrationForm = () => {
+
+    const navigate = useNavigate();
+
+    const initialValues = {
+        firstName: '',
+        lastName: '',
+        username: '',
+        password: '',
+        confirmPassword: '',
+        email: '',
+        contactNumber: '',
+        userRole: 'Admin', // Default role
+    };
+
+    const validationSchema = Yup.object().shape({
+        firstName: Yup.string().required('First Name is required'),
+        lastName: Yup.string().required('Last Name is required'),
+        username: Yup.string().required('Username is required'),
+        password: Yup.string().required('Password is required'),
+        confirmPassword: Yup.string()
+            .oneOf([Yup.ref('password'), null], 'Passwords must match')
+            .required('Confirm Password is required'),
+        email: Yup.string().email('Invalid email format').required('Email is required'),
+        contactNumber: Yup.string()
+            .matches(/^[0-9]+$/, 'Must be only digits')
+            .min(10, 'Must be exactly 10 digits')
+            .max(10, 'Must be exactly 10 digits')
+            .required('Contact Number is required'),
+    });
+
+    const handleSubmit = async (values, { setSubmitting }) => {
+        try {
+          const response = await UserService.createUser(values);
+          console.log('User created:', response.data);
+      
+          if (response.status === 201) {
+            setSubmitting(false);
+            const wallet = await WalletService.createWallet(response.data.username)
+            Modal.info({
+              title: "You are Successfully registered",
+              content: (
+                <p><strong>User-Name : {response.data.username}</strong></p>
+              )
+            });
+            navigate("/login")
+          } else {
+            Modal.error({
+              title: "Error",
+              content: (
+                <p>Failed to register. Please try again.</p>
+              )
+            });
+          
+          }
+        } catch (error) {
+          Modal.error({
+            title: "Error",
+            content: (
+                <p>{error.response?.data || 'Error creating user.'}</p>
+            )
+          });
+        }
+      };
+      
+
+    return (
+        <Container className="registration-container">
+            <div className="text-center">
+                <FontAwesomeIcon icon={faUserPlus} />
+                <h3 className="mt-2">User Registration</h3>
+            </div>
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+            >
+                {({ handleSubmit, isSubmitting }) => (
+                    <Form onSubmit={handleSubmit}>
+                        {/* First Name and Last Name */}
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group controlId="firstName">
+                                    <Form.Label>
+                                        First Name <span className="required">*</span>
+                                    </Form.Label>
+                                    <Field
+                                        type="text"
+                                        name="firstName"
+                                        as={Form.Control}
+                                        placeholder="Enter first name"
+                                    />
+                                    <ErrorMessage name="firstName" component="div" className="error" />
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group controlId="lastName">
+                                    <Form.Label>
+                                        Last Name <span className="required">*</span>
+                                    </Form.Label>
+                                    <Field
+                                        type="text"
+                                        name="lastName"
+                                        as={Form.Control}
+                                        placeholder="Enter last name"
+                                    />
+                                    <ErrorMessage name="lastName" component="div" className="error" />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        {/* Username and Password */}
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group controlId="username">
+                                    <Form.Label>
+                                        <FontAwesomeIcon icon={faUser} /> Username <span className="required">*</span>
+                                    </Form.Label>
+                                    <Field
+                                        type="text"
+                                        name="username"
+                                        as={Form.Control}
+                                        placeholder="Enter username"
+                                    />
+                                    <ErrorMessage name="username" component="div" className="error" />
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group controlId="password">
+                                    <Form.Label>
+                                        <FontAwesomeIcon icon={faLock} /> Password <span className="required">*</span>
+                                    </Form.Label>
+                                    <Field
+                                        type="password"
+                                        name="password"
+                                        as={Form.Control}
+                                        placeholder="Enter password"
+                                    />
+                                    <ErrorMessage name="password" component="div" className="error" />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        {/* Confirm Password */}
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group controlId="confirmPassword">
+                                    <Form.Label>
+                                        <FontAwesomeIcon icon={faLock} /> Confirm Password{' '}
+                                        <span className="required">*</span>
+                                    </Form.Label>
+                                    <Field
+                                        type="password"
+                                        name="confirmPassword"
+                                        as={Form.Control}
+                                        placeholder="Confirm password"
+                                    />
+                                    <ErrorMessage name="confirmPassword" component="div" className="error" />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        {/* Email Address */}
+                        <Form.Group controlId="email">
+                            <Form.Label>
+                                <FontAwesomeIcon icon={faEnvelope} /> Email Address <span className="required">*</span>
+                            </Form.Label>
+                            <Field
+                                type="email"
+                                name="email"
+                                as={Form.Control}
+                                placeholder="Enter email"
+                            />
+                            <ErrorMessage name="email" component="div" className="error" />
+                        </Form.Group>
+                        {/* Contact Number */}
+                        <Form.Group controlId="contactNumber">
+                            <Form.Label>
+                                <FontAwesomeIcon icon={faPhone} /> Contact Number <span className="required">*</span>
+                            </Form.Label>
+                            <Field
+                                type="tel"
+                                name="contactNumber"
+                                as={Form.Control}
+                                placeholder="Enter contact number"
+                            />
+                            <ErrorMessage name="contactNumber" component="div" className="error" />
+                        </Form.Group>
+                        <Button
+                            variant="primary"
+                            type="submit"
+                            className="btn-primary"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? 'Registering...' : 'Register'}
+                        </Button>
+                    </Form>
+                )}
+            </Formik>
         </Container>
-      );
+    );
 };
 
-export default RegisterUserForm;
+export default RegistrationForm;

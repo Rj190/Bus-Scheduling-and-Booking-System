@@ -1,0 +1,45 @@
+/* Wallet Component Styles */
+
+.wallet-container {
+    max-width: 300px;
+    margin: 0 auto;
+    margin-top: 3rem;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .balance {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .add-money input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .add-money button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+  }
+  
+  .add-money button:hover {
+    background-color: #0056b3;
+  }
+  

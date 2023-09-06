@@ -1,6 +1,7 @@
 package com.crimsonlogic.busschedulingandbookingsystem.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,9 @@ public class WalletServiceImpl implements IWalletService{
    
     @Override
     public Wallet updateWalletbyId(Integer walletID, Wallet wallet) {
-        getWalletById(walletID);
+    	Wallet exWallet = getWalletById(walletID);
         wallet.setWalletId(walletID);
+        wallet.setUser(exWallet.getUser());
         return walletRepo.save(wallet);
     }
     
@@ -42,9 +44,9 @@ public class WalletServiceImpl implements IWalletService{
     	walletRepo.deleteById(id);
     }
 
-	@Override
-	public Wallet getWalletByUser(User user) {
-		return walletRepo.findByUser(user).orElseThrow(() -> new ResourceNotFoundException("Wallet", "userName", user.getUsername()));
-	}
+//	@Override
+//	public Optional<Wallet> getWalletByUser(String username) {
+//		return walletRepo.findByUser(username);
+//	}
 }
 
