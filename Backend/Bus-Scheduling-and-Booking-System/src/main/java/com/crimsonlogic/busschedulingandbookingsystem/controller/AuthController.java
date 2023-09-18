@@ -1,6 +1,9 @@
 package com.crimsonlogic.busschedulingandbookingsystem.controller;
 
 
+import com.crimsonlogic.busschedulingandbookingsystem.entity.User;
+import com.crimsonlogic.busschedulingandbookingsystem.service.IUserService;
+import com.crimsonlogic.busschedulingandbookingsystem.service.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,9 @@ public class AuthController {
     @Autowired
     private AuthenticationManager manager;
 
+    @Autowired
+    private  IUserService userService;
+
 
     @Autowired
     private JwtHelper helper;
@@ -49,12 +55,16 @@ public class AuthController {
     	try {  this.doAuthenticate(request.getUsername(), request.getPassword());
 
 
+            User exUser = userService.findByUsername(request.getUsername()).get();
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         String token = this.helper.generateToken(userDetails);
 
         JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)
-                .username(userDetails.getUsername()).build();
+                .username(userDetails.getUsername())
+                .userRole(exUser.getUserRole()).build();
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     		
     	}catch (Exception e) {
