@@ -45,13 +45,15 @@ const Sidebar = () => {
 
 
 
-  useEffect(() => {
-    if (!jwtToken) {
-      message.error('Please Login');
-      message.info('Redirecting to Login page');
-      navigate('/login');
-    }
-  }, [1]); // Empty dependency array ensures this effect runs only once when the component mounts
+  if (!username) {
+    // Show a popup if username is null
+    Modal.error({
+      title: 'Error',
+      content: 'Please log in.',
+      onOk: () => navigate('/login'), // Navigate to login page
+    });
+    return;
+  }
 
 
 

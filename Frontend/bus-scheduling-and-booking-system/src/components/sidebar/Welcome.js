@@ -5,7 +5,7 @@ import '../../css/Bus.css'
 function Welcome() {
     return (
         <div className='side-container'>
-            <h1>Welcome</h1>
+            <h1>Welcome To Admin Page</h1>
         </div>
 
     );
