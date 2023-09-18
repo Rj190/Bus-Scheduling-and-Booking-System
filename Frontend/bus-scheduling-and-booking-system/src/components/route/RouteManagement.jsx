@@ -36,7 +36,7 @@ function RouteManagement() {
   };
 
   return (
-    <div>
+    <div className='side-container'>
       <h1 className='rei'>Route Management System</h1>
       <Button className="add-route-button" onClick={() => setShowAddRouteModal(true)}>
         Add Route

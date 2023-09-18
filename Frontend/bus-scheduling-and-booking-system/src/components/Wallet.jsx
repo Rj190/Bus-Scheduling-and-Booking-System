@@ -11,7 +11,8 @@ const Wallet = () => {
   const navigate = useNavigate();
   const [balance, setBalance] = useState(0); // Initialize balance
   const [addAmount, setAddAmount] = useState(0); // Initialize addAmount state
-  const username = location.state?.username;
+ // const username = location.state?.username;
+  const username = localStorage.getItem('username');
   const [wid, setWid] = useState(0);
 
   useEffect(() => {

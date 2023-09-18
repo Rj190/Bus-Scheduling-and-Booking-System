@@ -14,7 +14,7 @@ import '../css/LoginForm.css'; // Import your CSS file here
 
 import AuthService from '../services/Auth.service';
 import { useNavigate } from 'react-router-dom';
-
+import { useUser } from './UserContext';
 
 const LoginForm = () => {
     const navigate = useNavigate(); // Initialize useHistory
@@ -22,6 +22,7 @@ const LoginForm = () => {
         username: '',
         password: '',
     };
+    const { setUserRole,setJwtToken, setUserName } = useUser();
 
     const validationSchema = Yup.object().shape({
         username: Yup.string().required('Username is required'),
@@ -30,20 +31,53 @@ const LoginForm = () => {
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
-
             const response = await AuthService.login(values);
-
+    
             if (response.status === 200) {
                 setSubmitting(false);
-                console.log(response.data.jwtToken)
-                const username = response.data.username
-                Modal.success({
-                    title: "Login Successful",
-                    content: (
-                        <p><strong>Welcome, {response.data.username}</strong></p>
-                    )
-                });
-                navigate('/wallet',{state:{username}})
+        
+                const username = response.data.username;
+                const role = response.data.userRole;
+                const jwtToken = response.data.jwtToken;
+          
+                // Store the JWT token and user role in local storage
+                localStorage.setItem('jwtToken', jwtToken);
+                localStorage.setItem('userRole', role);
+                localStorage.setItem('username', username);
+
+                // Set JWT token and user role in the context
+                setJwtToken(jwtToken);
+                setUserRole(role);
+                setUserName(username);
+
+                // Check user role and navigate accordingly
+                if (role === 'Admin') {
+                    Modal.success({
+                        title: "Login Successful",
+                        content: (
+                            <p><strong>Welcome, {response.data.username}</strong></p>
+                        )
+                    });
+                    // Navigate to the admin page (Sidebar)
+                    navigate('/admin'); // You can update this route as needed
+                } else if (role === 'User') {
+                    Modal.success({
+                        title: "Login Successful",
+                        content: (
+                            <p><strong>Welcome, {response.data.username}</strong></p>
+                        )
+                    });
+                    // Navigate to the user's wallet page
+                    navigate('/wallet');
+                } else {
+                    // Handle other roles or unknown roles
+                    Modal.error({
+                        title: "Login Failed",
+                        content: (
+                            <p>Unknown user role. Please contact the administrator.</p>
+                        )
+                    });
+                }
             } else {
                 setSubmitting(false);
                 Modal.error({
@@ -54,9 +88,9 @@ const LoginForm = () => {
                 });
             }
         } catch (error) {
-            console.log(error.response);
+            console.error(error);
+           // console.log(error.response);
             Modal.error({
-
                 title: "Error",
                 content: (
                     <p>{error.response?.data || 'Error logging in.'}</p>
@@ -64,7 +98,7 @@ const LoginForm = () => {
             });
         }
     };
-
+    
     return (
         <div className="login-container">
             <div className="text-center">

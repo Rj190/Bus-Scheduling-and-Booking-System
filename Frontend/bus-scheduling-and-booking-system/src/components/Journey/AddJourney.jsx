@@ -144,6 +144,7 @@ function AddJourney({ onAddJourney, onCancel }) {
             if (response.status === 201) {
                 message.success('Journey added successfully!');
                 formik.resetForm();
+                onAddJourney(response.data)
                 onCancel();
             } else {
                 message.error('Failed to create Journey');

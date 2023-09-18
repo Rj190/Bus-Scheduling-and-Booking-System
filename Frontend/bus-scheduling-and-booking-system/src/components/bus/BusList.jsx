@@ -5,7 +5,7 @@ import '../../css/Bus.css'
 function BusList({ buses, onEdit }) {
   return (
     <div className="bus-list-container">
-    <h1 className="reo">Route List</h1>
+    <h1 className="reo">Bus List</h1>
     <table className="bus-table">
       <thead>
         <tr>

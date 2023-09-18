@@ -37,9 +37,9 @@ function JourneyManagement() {
   };
 
   return (
-    <div>
+    <div className='side-container'>
       <h1>Journey Management System</h1>
-      <Button onClick={() => setShowAddModal(true)} className="add-journey-button">
+      <Button onClick={() => setShowAddModal(true)} className="add-route-button">
         Add Journey
       </Button>
       {editingJourney ? (

@@ -6,7 +6,7 @@ import { faEdit, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 function JourneyList({ journeys, onEdit }) {
     return (
         <div className="bus-list-container">
-            <h1 className="reo">Route List</h1>
+            <h1 className="reo">Journey List</h1>
             {journeys.length === 0 ? (
                 <div className="no-data-message">
                     <p>No data available.</p>

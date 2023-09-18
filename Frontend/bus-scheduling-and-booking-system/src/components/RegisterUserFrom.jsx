@@ -31,7 +31,7 @@ const RegistrationForm = () => {
         confirmPassword: '',
         email: '',
         contactNumber: '',
-        userRole: 'Admin', // Default role
+        userRole: 'User', // Default role
     };
 
     const validationSchema = Yup.object().shape({

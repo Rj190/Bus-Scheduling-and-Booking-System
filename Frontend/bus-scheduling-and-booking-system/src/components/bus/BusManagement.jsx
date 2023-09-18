@@ -39,7 +39,7 @@ function BusManagement() {
 
 
   return (
-    <div>
+    <div className='side-container'>
       <h1>Bus Management System</h1>
       <Button onClick={() => setShowAddModal(true)} className="add-route-button">
         Add Bus
