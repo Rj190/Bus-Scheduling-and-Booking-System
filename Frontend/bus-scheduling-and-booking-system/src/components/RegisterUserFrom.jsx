@@ -52,41 +52,41 @@ const RegistrationForm = () => {
 
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
-          const response = await UserService.createUser(values);
-          console.log('User created:', response.data);
-      
-          if (response.status === 201) {
-            setSubmitting(false);
-            const wallet = await WalletService.createWallet(response.data.username)
-            Modal.info({
-              title: "You are Successfully registered",
-              content: (
-                <p><strong>User-Name : {response.data.username}</strong></p>
-              )
-            });
-            navigate("/login")
-          } else {
-            Modal.error({
-              title: "Error",
-              content: (
-                <p>Failed to register. Please try again.</p>
-              )
-            });
-          
-          }
+            const response = await UserService.createUser(values);
+            console.log('User created:', response.data);
+
+            if (response.status === 201) {
+                setSubmitting(false);
+                const wallet = await WalletService.createWallet(response.data.username)
+                Modal.info({
+                    title: "You are Successfully registered",
+                    content: (
+                        <p><strong>User-Name : {response.data.username}</strong></p>
+                    )
+                });
+                navigate("/login")
+            } else {
+                Modal.error({
+                    title: "Error",
+                    content: (
+                        <p>Failed to register. Please try again.</p>
+                    )
+                });
+
+            }
         } catch (error) {
-          Modal.error({
-            title: "Error",
-            content: (
-                <p>{error.response?.data || 'Error creating user.'}</p>
-            )
-          });
+            Modal.error({
+                title: "Error",
+                content: (
+                    <p>{error.response?.data || 'Error creating user.'}</p>
+                )
+            });
         }
-      };
-      
+    };
+
 
     return (
-        <Container className="registration-container">
+        <div className="registration-container">
             <div className="text-center">
                 <FontAwesomeIcon icon={faUserPlus} />
                 <h3 className="mt-2">User Registration</h3>
@@ -129,22 +129,21 @@ const RegistrationForm = () => {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        {/* Username and Password */}
+
+                        <Form.Group controlId="username">
+                            <Form.Label>
+                                <FontAwesomeIcon icon={faUser} /> Username <span className="required">*</span>
+                            </Form.Label>
+                            <Field
+                                type="text"
+                                name="username"
+                                as={Form.Control}
+                                placeholder="Enter username"
+                            />
+                            <ErrorMessage name="username" component="div" className="error" />
+                        </Form.Group>
+
                         <Row>
-                            <Col md={6}>
-                                <Form.Group controlId="username">
-                                    <Form.Label>
-                                        <FontAwesomeIcon icon={faUser} /> Username <span className="required">*</span>
-                                    </Form.Label>
-                                    <Field
-                                        type="text"
-                                        name="username"
-                                        as={Form.Control}
-                                        placeholder="Enter username"
-                                    />
-                                    <ErrorMessage name="username" component="div" className="error" />
-                                </Form.Group>
-                            </Col>
                             <Col md={6}>
                                 <Form.Group controlId="password">
                                     <Form.Label>
@@ -159,9 +158,6 @@ const RegistrationForm = () => {
                                     <ErrorMessage name="password" component="div" className="error" />
                                 </Form.Group>
                             </Col>
-                        </Row>
-                        {/* Confirm Password */}
-                        <Row>
                             <Col md={6}>
                                 <Form.Group controlId="confirmPassword">
                                     <Form.Label>
@@ -215,7 +211,7 @@ const RegistrationForm = () => {
                     </Form>
                 )}
             </Formik>
-        </Container>
+        </div>
     );
 };
 

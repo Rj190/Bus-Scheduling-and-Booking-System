@@ -1,0 +1,50 @@
+
+.home-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.paper {
+  padding: 1.7rem; /* Reset padding */
+  width: 100%;
+  max-width: 800px;
+  border-radius: 70rem !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.horizontal-form {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  width: 100%; /* Ensure the form takes the full width */
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  max-width: 180px;
+  height: 57px;
+}
+
+
+.search-button {
+  background-color: crimson !important;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  max-width: 180px;
+  height: 57px;
+}
+
+.search-button:hover {
+  background-color: rgb(252, 8, 8) !important;
+  color: rgb(0, 0, 0);
+}

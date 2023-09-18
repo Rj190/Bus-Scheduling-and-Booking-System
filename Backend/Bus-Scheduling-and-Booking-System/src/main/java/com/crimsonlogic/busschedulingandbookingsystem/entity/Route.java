@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "routedetails")
@@ -23,6 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Route {
  
 
@@ -44,7 +46,6 @@ public class Route {
     @Min(value = 1, message = "Duration must be at least 1")
     private Integer duration;
     
-    private double fare;
     
     @OneToMany(mappedBy = "route")
     @JsonIgnoreProperties("route")

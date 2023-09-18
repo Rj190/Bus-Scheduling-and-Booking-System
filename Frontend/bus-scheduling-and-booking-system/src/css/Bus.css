@@ -351,3 +351,53 @@
 
 
 }
+
+
+.bus-list-container {
+
+    display: block;               /* i have changed here   before it was flex */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    text-align: center;
+    }
+    
+    .bus-table {
+    width: 90%;                   /*  This i have changed */
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 16px;
+    margin: 50px;
+    }
+    
+    .bus-table  th,
+    .bus-table td {
+    padding: 2px;
+    text-align: center;
+    border: 1px solid #000000;
+    }
+    
+    .bus-table  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    }
+    
+    .buseedit {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 5px;
+    border-radius: 0.5rem;
+    width: 7rem;
+    }
+    
+    .buseedit:hover {
+    background-color: #0056b3;
+    }
+    .reo{
+    text-align: center;
+    }  

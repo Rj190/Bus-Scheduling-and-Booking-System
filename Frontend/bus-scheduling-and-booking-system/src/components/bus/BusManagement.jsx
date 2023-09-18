@@ -1,219 +1,65 @@
-import React, { useState } from 'react';
-
- 
-
-import { Modal, Button } from 'react-bootstrap';
-
- 
-
+import React, { useState,useEffect } from 'react';
+import {  Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
- 
-
 import AddBus from './AddBus'; // Import your AddBus component here
-
- 
-
-import EditBus from './EditBus'; // Import your EditBus component here
-
- 
-
-import BusList from './BusList'; // Import your BusList component here
-
- 
-
+import EditBus from './EditBus'; // Import your EditBus component hereimport BusList from './BusList'; // Import your BusList component here
 import '../../css/Bus.css'
+import BusService from '../../services/Bus.service';
+import BusList from './BusList'
 
 function BusManagement() {
-
- 
-
   const [buses, setBuses] = useState([]);
-
- 
-
   const [editingBus, setEditingBus] = useState(null);
-
- 
-
   const [showAddModal, setShowAddModal] = useState(false);
 
-  const handleAddBus = (newBus) => {
-
- 
-
-    setBuses([...buses, newBus]);
-
- 
-
-    setShowAddModal(false);
-
- 
-
+  const fetchBuses = async () => {
+    try {
+      const allBuses = await BusService.getAllBuses();
+      setBuses(allBuses.data)
+    } catch (error) {
+      console.error('Error fetching routes:', error);
+    }
   };
 
- 
+  useEffect(() => {
+    fetchBuses();
+  }, []); // Empty dependency array ensures this effect runs only once when the component mounts
+
+
+
+  const handleAddBus = (newBus) => {
+    setBuses([...buses, newBus]);
+    setShowAddModal(false);
+  };
 
   const handleEditBus = (editedBus) => {
-
- 
-
-    const updatedBuses = buses.map((bus) =>
-
- 
-
-      bus.BusID === editedBus.BusID ? editedBus : bus
-
- 
-
-    );
-
- 
-
-    setBuses(updatedBuses);
-
- 
-
+    fetchBuses();
     setEditingBus(null);
-
- 
-
   };
 
-  const handleDeleteBus = (busId) => {
-
- 
-
-    const updatedBuses = buses.filter((bus) => bus.BusID !== busId);
-
- 
-
-    setBuses(updatedBuses);
-
- 
-
-    setEditingBus(null);
-
- 
-
-  };
 
   return (
-
- 
-
-<div>
-
- 
-
-<h1>Bus Management System</h1>
-
- 
-
-<Button onClick={() => setShowAddModal(true)} className="add-route-button">
-
- 
-
+    <div>
+      <h1>Bus Management System</h1>
+      <Button onClick={() => setShowAddModal(true)} className="add-route-button">
         Add Bus
-
- 
-
-</Button>
-
- 
-
+      </Button>
       {editingBus ? (
-
- 
-
-<EditBus
-
- 
-
+        <EditBus
           bus={editingBus}
-
- 
-
           onUpdateBus={handleEditBus}
-
- 
-
           onCancel={() => setEditingBus(null)}
-
- 
-
         />
-
- 
-
       ) : null}
-
- 
-
-<BusList buses={buses} onEdit={(bus) => setEditingBus(bus)} onDelete={handleDeleteBus} />
-
- 
-
-<Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
-
- 
-
-<Modal.Header closeButton>
-
- 
-
-<Modal.Title>Add Bus</Modal.Title>
-
- 
-
-</Modal.Header>
-
- 
-
-<Modal.Body>
-
- 
-
-<AddBus onAddBus={handleAddBus} onCloseModal={() => setShowAddModal(false)} />
-
- 
-
-</Modal.Body>
-
- 
-
-<Modal.Footer>
-
- 
-
-<Button variant="secondary" onClick={() => setShowAddModal(false)}>
-
- 
-
-            Close
-
- 
-
-</Button>
-
- 
-
-</Modal.Footer>
-
- 
-
-</Modal>
-
- 
-
-</div>
-
- 
-
+      <BusList buses={buses} onEdit={(bus) => setEditingBus(bus)} />
+      {showAddModal && (
+        <AddBus
+          onAddBus={handleAddBus}
+          onCancel={() => setShowAddModal(false)}
+        />
+      )}
+    </div>
   );
-
- 
-
 }
 
 export default BusManagement;

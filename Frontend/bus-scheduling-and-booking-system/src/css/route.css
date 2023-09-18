@@ -1,455 +1,209 @@
 .form-container {
-
-    max-width: 400px;
-
-    margin: 0 auto;
-
-  }
-
- 
-
-  .form-container h2 {
-
-    font-size: 1.5rem;
-
-    margin-bottom: 1rem;
-
-  }
-
- 
-
-  .form-container form {
-
-    display: flex;
-
-    flex-direction: column;
-
-  }
-
- 
-
-  .form-container select,
-
-  .form-container input {
-
-    margin: 0.5rem 0;
-
-    padding: 0.5rem;
-
-    border: 1px solid #ccc;
-
-    border-radius: 4px;
-
-    font-size: 1rem;
-
-  }
-
- 
-
- 
-
-  .form-container button {
-
-    margin-top: 1rem;
-
-    padding: 0.5rem 1rem;
-
-    background-color: #007bff;
-
-    color: #fff;
-
-    border: none;
-
-    border-radius: 4px;
-
-    cursor: pointer;
-
-  }
-
- 
-
-  .form-container button:hover {
-
-    background-color: #0056b3;
-
-  }
-
- 
-
-  .route-list {
-
-    max-width: 400px;
-
-    margin: 0 auto;
-
-  }
-
- 
-
-  .route-list h1 {
-
-    font-size: 1.5rem;
-
-    margin-bottom: 1rem;
-
-  }
-
- 
-
-  .route-list ul {
-
-    list-style: none;
-
-    padding: 0;
-
-  }
-
- 
-
-  .route-list li {
-
-    border: 1px solid #ccc;
-
-    border-radius: 4px;
-
-    padding: 0.5rem;
-
-    margin: 0.5rem 0;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-  }
-
-  /* src/components/styles.css */
-
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container select,
+.form-container input {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+} 
+
+
+.form-container button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #0056b3;
+}
+
+.route-list {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.route-list h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.route-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.route-list li {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+} 
+/* src/components/styles.css */
 /*
-
 .form-container {
-
-    background-color: #f4f4f4;
-
-    padding: 20px;
-
-    border-radius: 8px;
-
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);  
-
-    max-width: 380px;
-
-    margin: 0 auto;
-
-  }   */
-
- 
-
-  .form-input {
-
-    width: 100%;
-
-    padding: 10px;
-
-    margin: 10px 0;
-
-    border: 1px solid #ccc;
-
-    border-radius: 4px;
-
-  }
-
- 
-
-  .form-button {
-
-    width: 100%;
-
-    background-color: #007bff;
-
-    color: #fff;
-
-    border: none;
-
-    border-radius: 4px;
-
-    padding: 10px;
-
-    cursor: pointer;
-
-  }
-
- 
-
-  .added-route-details {
-
-    background-color: #f9f9f9;
-
-    padding: 10px;
-
-    margin-top: 20px;
-
-    border: 1px solid #ccc;
-
-    border-radius: 4px;
-
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
-
-  }
-
- 
-
-  .added-route-details h3 {
-
-    font-size: 18px;
-
-    margin-bottom: 10px;
-
-  }
-
-  .button-container {
-
-    display: flex;
-
-    justify-content: flex-end; /* Align content to the right */
-
-    margin-bottom: 10px; /* Add some space below the button */
-
-  }
-
-  .add-route-button{
-    padding: 10px;
-
-    margin-top: 40px;
-
-    margin-right: 30px;
-
-    border-radius: 5px;
-
-    float:right;
-    width: 7rem;
-
-  }
-
-  .rei{
-
-    text-align: center;
-
-  }
-
-  .reo{
-
-    text-align: center;
-
-  }
-
-  .routeedit{
-
-    /* border-radius: 10px;
-
-    margin: 10px;
-
-    padding-left: 10px;
-
-    padding-right: 10px;
-
-    background-color: #0056b3; */
-
-    margin-top: 1rem;
-
-    padding: 0.5rem 1rem;
-
-    background-color: #007bff;
-
-    color: #fff;
-
-    border: none;
-
-    border-radius: 4px;
-
-    cursor: pointer;
-
- 
-
-  }
-
-  .route-list-container {
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    height: 50vh;
-
-    text-align: center;
-
-  }
-
- 
-
-  .route-table {
-
-    width: 80%;
-
-    border-collapse: collapse;
-
-    border-spacing: 0;
-
-    font-size: 16px;
-
-    margin-top: 20px;
-
-  }
-
- 
-
-  .route-table th,
-
-  .route-table td {
-
-    padding: 10px;
-
-    text-align: center;
-
-    border: 1px solid #ddd;
-
-  }
-
- 
-
-  .route-table th {
-
-    background-color: #f2f2f2;
-
-    font-weight: bold;
-
-  }
-
- 
-
-  .routeedit {
-
-    background-color: #007bff;
-
-    color: white;
-
-    border: none;
-
-    padding: 5px 10px;
-
-    cursor: pointer;
-
-    transition: background-color 0.3s;
-
-  }
-
- 
-
-  .routeedit:hover {
-
-    background-color: #0056b3;
-
-  }
-
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);  
+  max-width: 380px;
+  margin: 0 auto;
+}   */
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-button {
+  width: 100%;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.added-route-details {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+}
+
+.added-route-details h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+ .button-container {    
+  text-align: center; 
+  display: flex;
+  justify-content: flex-end; 
+  margin-bottom: 10px; 
+}
+.add-route-button{
+  text-align: center;
+  padding: 10px;
+  margin-top: 40px;
+  margin-right: 10px;
+  border-radius: 5px;
+  float: right;
+} 
+.rei{
+  text-align: center;
+}
 .reo{
+  text-align: center;
+}
+.routeedit{
+  /* border-radius: 10px;
+  margin: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #0056b3; */
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
-    text-align: center;
 
-}  
-
-/* RouteList.css */
-
- 
 
 .route-list-container {
 
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  height: 50vh;
-
-  text-align: center;
-
+display: block;               /* i have changed here   before it was flex */
+flex-direction: column;
+align-items: center;
+justify-content: center;
+height: 50vh;
+text-align: center;
 }
-
- 
 
 .route-table {
-
-  width: 80%;
-
-  border-collapse: collapse;
-
-  border-spacing: 0;
-
-  font-size: 16px;
-
-  margin-top: 20px;
-
+width: 90%;                   /*  This i have changed */
+border-collapse: collapse;
+border-spacing: 0;
+font-size: 16px;
+margin: 50px;
 }
-
- 
 
 .route-table th,
-
 .route-table td {
-
-  padding: 10px;
-
-  text-align: center;
-
-  border: 1px solid #ddd;
-
+padding: 2px;
+text-align: center;
+border: 1px solid #ddd;
 }
-
- 
 
 .route-table th {
-
-  background-color: #f2f2f2;
-
-  font-weight: bold;
-
+background-color: #f2f2f2;
+font-weight: bold;
 }
-
- 
 
 .routeedit {
-
-  background-color: green;
-
-  color: white;
-
-  border: none;
-
-  padding: 5px 10px;
-
-  cursor: pointer;
-
-  transition: background-color 0.3s;
-
+background-color: green;
+color: white;
+border: none;
+padding: 5px 10px;
+cursor: pointer;
+transition: background-color 0.3s;
+margin-bottom: 5px;
 }
-
- 
 
 .routeedit:hover {
+background-color: #0056b3;
+}
+.reo{
+text-align: center;
+}  
+/* styles.css */
 
-  background-color: #0056b3;
-
+.route-heading {
+text-align: center;
+margin-top: 20px;
+margin-bottom: 20px;
 }
 
-.reo{
+.add-route-button {
+margin-top: 10px;
+margin-right: 10px;
+border-radius: 5px;
+width: 7rem;
+float: right;
+}
 
-  text-align: center;
-
-}  
+.button-container {
+display: flex;
+justify-content: flex-end;
+margin-bottom: 10px;
+}

@@ -59,8 +59,7 @@ public class RouteServiceimpl implements IRouteService {
         existingRoute.setArrivalCity(updatedRoute.getArrivalCity());
         existingRoute.setDistance(updatedRoute.getDistance());
         existingRoute.setDuration(updatedRoute.getDuration());
-        existingRoute.setFare(updatedRoute.getFare());
-
+  
         return routeRepository.save(existingRoute);
     }
 

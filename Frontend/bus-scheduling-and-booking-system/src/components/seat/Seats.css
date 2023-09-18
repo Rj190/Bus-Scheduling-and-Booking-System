@@ -1,0 +1,135 @@
+
+/* Add some global styles for the main container */
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Style for the "Select Seats" heading */
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Style for the container that holds seat grid and payment section */
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 20px; /* Add margin to separate from the heading */
+}
+
+/* Style for the seat grid */
+.seat-grid {
+  
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); /* 10 columns for a row of 10x3 seats */
+  gap: 20px; /* Gap between seats */
+  justify-items: center;
+  background-color: #93ba8daf;
+  padding: 15px;
+  border-radius: 1rem;
+  border: 1px solid #120707;
+}
+
+/* Style for each seat paper */
+.seat {
+  width: 40px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Style for available seats */
+.available {
+  background-color: #cad6ca; /* Light green background */
+}
+
+/* Style for selected seats */
+.selected {
+  background-color: #3399ff; /* Light blue background */
+  color: #fff; /* White text color */
+}
+
+/* Style for booked seats */
+.booked {
+  background-color: #ff3333; /* Red background */
+  color: #fff; /* White text color */
+}
+
+/* Style for the seat icon */
+.seat-icon {
+  font-size: 24px;
+  margin: 0px;
+}
+
+.legend{
+  position: fixed;
+  background-color: #cad6ca;
+  padding:12px;
+  margin-top: 350px;
+  margin-left: 12px;
+  border-radius: 2rem;
+  border: 1px solid #130707;
+}
+
+
+/* Style for paymentContainer */
+.paymentContainer {
+
+  margin-top: 20px;
+}
+
+/* Style for Card component */
+.MuiCard-root {
+  font-family: 'Your-Modern-Font', sans-serif; /* Replace 'Your-Modern-Font' with the desired font */
+  border-radius: 1rem;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+/* Style for CardContent (content within the Card) */
+.MuiCardContent-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Style for h2 within CardContent */
+.MuiCardContent-root h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* Style for ul within CardContent */
+.MuiCardContent-root ul {
+  list-style-type: none; /* Remove bullets from list items */
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+/* Style for li within CardContent ul */
+.MuiCardContent-root li {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* Style for Button within CardContent */
+.MuiCardContent-root .MuiButton-root {
+  margin-top: 20px;
+}
+
+/* Seats.css */
+
+.passenger-form-field {
+  margin-bottom: 20px; /* Adjust the margin as needed */
+}

@@ -76,20 +76,21 @@ public class BusServiceImpl implements IBusService {
         existingBus.setBusCapacity(bus.getBusCapacity());
         existingBus.setBusRegistrationNumber(bus.getBusRegistrationNumber());
         existingBus.setBusAvailabilityStatus(bus.getBusAvailabilityStatus());
+        existingBus.setBusName(bus.getBusName());
 
         Bus updatedBus = busRepository.save(existingBus);
 
-        for (Seat seat : bus.getSeats()) {
-            if (seat.getSeatId() != null) {
-                Seat existingSeat = seatRepository.findById(seat.getSeatId())
-                        .orElseThrow(() -> new ResourceNotFoundException("Seat", "Seat Id", seat.getSeatId()));
-                existingSeat.setSeatAvailabilityStatus(seat.getSeatAvailabilityStatus());
-                seatRepository.save(existingSeat);
-            } else {
-                seat.setBus(updatedBus);
-                seatRepository.save(seat);
-            }
-        }
+//        for (Seat seat : bus.getSeats()) {
+//            if (seat.getSeatId() != null) {
+//                Seat existingSeat = seatRepository.findById(seat.getSeatId())
+//                        .orElseThrow(() -> new ResourceNotFoundException("Seat", "Seat Id", seat.getSeatId()));
+//                existingSeat.setSeatAvailabilityStatus(seat.getSeatAvailabilityStatus());
+//                seatRepository.save(existingSeat);
+//            } else {
+//                seat.setBus(updatedBus);
+//                seatRepository.save(seat);
+//            }
+//        }
         return updatedBus;
     }
 

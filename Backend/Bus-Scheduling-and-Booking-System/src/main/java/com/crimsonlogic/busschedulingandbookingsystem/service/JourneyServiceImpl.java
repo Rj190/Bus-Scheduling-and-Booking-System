@@ -50,6 +50,11 @@ public class JourneyServiceImpl implements IJourneyService {
 
         existingJourney.setJourneyDate(newJourney.getJourneyDate());
         existingJourney.setJourneyTime(newJourney.getJourneyTime());
+        existingJourney.setBus(newJourney.getBus());
+        existingJourney.setRoute(newJourney.getRoute());
+        existingJourney.setArrivalDate(newJourney.getArrivalDate());
+        existingJourney.setArrivalTime(newJourney.getArrivalTime());
+        existingJourney.setFare(newJourney.getFare());
 
         return journeyRepository.save(existingJourney);
     }

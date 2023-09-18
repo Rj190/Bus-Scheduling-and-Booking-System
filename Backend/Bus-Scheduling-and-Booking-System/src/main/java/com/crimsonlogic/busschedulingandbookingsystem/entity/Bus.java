@@ -7,10 +7,13 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.ToString;
+
 import java.util.List;
 
 @Entity
 @Table(name = "bus_data")
+@ToString
 public class Bus {
 
     @Id

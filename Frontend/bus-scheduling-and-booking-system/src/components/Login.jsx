@@ -66,7 +66,7 @@ const LoginForm = () => {
     };
 
     return (
-        <Container className="login-container">
+        <div className="login-container">
             <div className="text-center">
                 <FontAwesomeIcon icon={faUser} />
                 <h3 className="mt-2">User Login</h3>
@@ -122,7 +122,7 @@ const LoginForm = () => {
                     </Form>
                 )}
             </Formik>
-        </Container>
+        </div>
     );
 };
 

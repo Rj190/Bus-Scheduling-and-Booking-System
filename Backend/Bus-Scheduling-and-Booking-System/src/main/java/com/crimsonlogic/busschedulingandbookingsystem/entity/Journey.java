@@ -30,6 +30,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "journey_info")
@@ -43,6 +44,7 @@ public class Journey {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer journeyId;
 
+
     @NotNull(message = "Journey date is required")
     private LocalDate journeyDate;
     
@@ -50,10 +52,22 @@ public class Journey {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm")
     @NotNull(message = "Journey time is required")
     private LocalTime journeyTime;
+    
+
+    @NotNull(message = "arrival Date  is required")
+    private LocalDate arrivalDate;
+    
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "HH:mm")
+    @NotNull(message = "arrival time is required")
+    private LocalTime arrivalTime;
+    
+    
+    @NotNull(message = "fare is required")
+    private Double fare;
 
 
 	@ManyToOne
-	@JoinColumn(name = "busId_fk", nullable = false)
+	@JoinColumn(name = "busId_fk")
 	@JsonIgnoreProperties("journeys")
 	private Bus bus;
 

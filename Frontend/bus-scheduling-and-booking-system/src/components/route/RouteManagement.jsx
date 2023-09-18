@@ -1,41 +1,44 @@
-import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AddRoute from './AddRoute'; // Import your AddRoute component here
-import EditRoute from './EditRoute'; // Import your EditRoute component here
-import RouteList from './RouteList'; // Import your RouteList component here
-import '../../css/route.css'
+import AddRoute from './AddRoute';
+import EditRoute from './EditRoute';
+import RouteList from './RouteList';
+import '../../css/route.css';
+import RouteService from '../../services/Route.service';
 
 function RouteManagement() {
   const [routes, setRoutes] = useState([]);
   const [editingRoute, setEditingRoute] = useState(null);
-  
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [showAddRouteModal, setShowAddRouteModal] = useState(false);
+
+  const fetchRoutes = async () => {
+    try {
+      const allRoutes = await RouteService.getAllRoutes();
+      setRoutes(allRoutes.data);
+    } catch (error) {
+      console.error('Error fetching routes:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRoutes();
+  }, []); // Empty dependency array ensures this effect runs only once when the component mounts
+
+  const handleEditRoute = () => {
+    fetchRoutes()
+    setEditingRoute(null);
+  };
 
   const handleAddRoute = (newRoute) => {
     setRoutes([...routes, newRoute]);
-    setShowAddModal(false);
-  };
-
-  const handleEditRoute = (editedRoute) => {
-    const updatedRoutes = routes.map((route) =>
-      route.RouteID === editedRoute.RouteID ? editedRoute : route
-    );
-    setRoutes(updatedRoutes);
-    
-    setEditingRoute(null);
-  };
-
-  const handleDeleteRoute = (routeId) => {
-    const updatedRoutes = routes.filter((route) => route.RouteID !== routeId);
-    setRoutes(updatedRoutes);
-    setEditingRoute(null);
+    setShowAddRouteModal(false);
   };
 
   return (
     <div>
       <h1 className='rei'>Route Management System</h1>
-      <Button onClick={() => setShowAddModal(true)} className="add-route-button">
+      <Button className="add-route-button" onClick={() => setShowAddRouteModal(true)}>
         Add Route
       </Button>
       {editingRoute ? (
@@ -45,20 +48,13 @@ function RouteManagement() {
           onCancel={() => setEditingRoute(null)}
         />
       ) : null}
-      <RouteList routes={routes} onEdit={(route) => setEditingRoute(route)} onDelete={handleDeleteRoute} />
-      <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title >Add Route</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <AddRoute onAddRoute={handleAddRoute} onCloseModal={() => setShowAddModal(false)} />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={() => setShowAddModal(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <RouteList routes={routes} onEdit={(route) => setEditingRoute(route)} />
+      {showAddRouteModal && (
+        <AddRoute
+          onAddRoute={handleAddRoute}
+          onCancel={() => setShowAddRouteModal(false)}
+        />
+      )}
     </div>
   );
 }

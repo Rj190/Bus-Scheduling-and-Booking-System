@@ -1,90 +1,41 @@
 import React from 'react';
+import '../../css/Bus.css'
 
-import { useState } from 'react';
 
- 
-
-function BusList({ buses, onEdit, onDelete }) {
-
- 
-
-  // Check if 'buses' is an array
-
- 
-
-  if (!Array.isArray(buses)) {
-
- 
-
-    return null; // Return null or handle the error as needed
-
- 
-
-  }
-
+function BusList({ buses, onEdit }) {
   return (
-
- 
-
-<div className="bus-list">
-
- 
-
-<h1>Bus List</h1>
-
- 
-
-<ul>
-
- 
-
+    <div className="bus-list-container">
+    <h1 className="reo">Route List</h1>
+    <table className="bus-table">
+      <thead>
+        <tr>
+          <th>Bus Name</th>
+          <th>Bus Type</th>
+          <th>Bus Capacity</th>
+          <th>Bus RegistrationNumber</th>
+          <th>Bus Availability Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
         {buses.map((bus) => (
-
- 
-
-<li key={bus.BusID}>
-
- 
-
-            {bus.BusType} (ID: {bus.BusID})
-
- 
-
-<div className="list-buttons">
-
- 
-
-<button onClick={() => onEdit(bus)}>Edit</button>
-
- 
-
-<button onClick={() => onDelete(bus.BusID)}>Delete</button>
-
- 
-
-</div>
-
- 
-
-</li>
-
- 
-
+          <tr key={bus.busId}>
+            <td>{bus.busName}</td>
+            <td>{bus.busType}</td>
+            <td>{bus.busCapacity}</td>
+            <td>{bus.busRegistrationNumber}</td>
+            <td>{bus.busAvailabilityStatus}</td>
+            <td>
+              <button onClick={() => onEdit(bus)} className="buseedit">
+                Edit
+              </button>
+            </td>
+          </tr>
         ))}
-
- 
-
-</ul>
-
- 
-
-</div>
-
- 
-
+      </tbody>
+    </table>
+  </div>
   );
-
- 
 
 }
 

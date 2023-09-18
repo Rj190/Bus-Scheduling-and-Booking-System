@@ -24,6 +24,7 @@ import com.crimsonlogic.busschedulingandbookingsystem.service.IRouteService;
 
 @RestController
 @RequestMapping("/api/journeys")
+@CrossOrigin("*")
 public class JourneyController {
 
 	@Autowired
@@ -44,14 +45,6 @@ public class JourneyController {
 	public ResponseEntity<?> insertJourney(@Valid @RequestBody Journey journey, BindingResult bindingResult,
 			@PathVariable("busId") Integer busId, @PathVariable("routeId") Integer routeId)
 			throws RouteNotFoundException {
-		/*
-		 * if (bindingResult.hasErrors()) { // Handle validation errors StringBuilder
-		 * errorMessage = new StringBuilder(); for (FieldError fieldError :
-		 * bindingResult.getFieldErrors()) {
-		 * errorMessage.append(fieldError.getField()).append(": ").append(fieldError.
-		 * getDefaultMessage()) .append("; "); } return
-		 * ResponseEntity.badRequest().body(errorMessage.toString()); }
-		 */
 		Bus bus = busService.getBusById(busId).orElseThrow(() -> new ResourceNotFoundException("Bus", "Bus Id", busId));
 		Route route = routeService.findRouteById(routeId);
 		journey.setBus(bus);
@@ -81,20 +74,15 @@ public class JourneyController {
 		}
 	}
 
-	@PutMapping("/update/{journeyId}")
-	public ResponseEntity<?> updateJourneyById(@PathVariable int journeyId, @Valid @RequestBody Journey newJourney,
-			BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			// Handle validation errors
-			StringBuilder errorMessage = new StringBuilder();
-			for (FieldError fieldError : bindingResult.getFieldErrors()) {
-				errorMessage.append(fieldError.getField()).append(": ").append(fieldError.getDefaultMessage())
-						.append("; ");
-			}
-			return ResponseEntity.badRequest().body(errorMessage.toString());
-		}
+	@PutMapping("/update/{journeyId}/{busId}/{routeId}")
+	public ResponseEntity<?> updateJourneyById(@PathVariable int journeyId, @Valid @RequestBody Journey newJourney,@PathVariable("busId") Integer busId, @PathVariable("routeId") Integer routeId) throws RouteNotFoundException {
 
 		try {
+			Bus bus = busService.getBusById(busId).orElseThrow(() -> new ResourceNotFoundException("Bus", "Bus Id", busId));
+			Route route = routeService.findRouteById(routeId);
+			newJourney.setBus(bus);
+			newJourney.setRoute(route);
+			System.out.println(route);
 			Journey updatedJourney = journeyService.updateJourneyById(journeyId, newJourney);
 			return ResponseEntity.ok(updatedJourney);
 		} catch (ResourceNotFoundException ex) {
@@ -152,19 +140,19 @@ public class JourneyController {
 	 * @param ex RouteNotFoundException instance
 	 * @return ResponseEntity with NOT_FOUND status and error message
 	 */
-	@ExceptionHandler(RouteNotFoundException.class)
-	public ResponseEntity<String> handleRouteNotFoundException(RouteNotFoundException ex) {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-	}
-
-	/**
-	 * Handle other exceptions and return INTERNAL_SERVER_ERROR status.
-	 * 
-	 * @param ex Exception instance
-	 * @return ResponseEntity with INTERNAL_SERVER_ERROR status and error message
-	 */
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<String> handleGeneralException(Exception ex) {
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
-	}
+//	@ExceptionHandler(RouteNotFoundException.class)
+//	public ResponseEntity<String> handleRouteNotFoundException(RouteNotFoundException ex) {
+//		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+//	}
+//
+//	/**
+//	 * Handle other exceptions and return INTERNAL_SERVER_ERROR status.
+//	 * 
+//	 * @param ex Exception instance
+//	 * @return ResponseEntity with INTERNAL_SERVER_ERROR status and error message
+//	 */
+//	@ExceptionHandler(Exception.class)
+//	public ResponseEntity<String> handleGeneralException(Exception ex) {
+//		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+//	}
 }
