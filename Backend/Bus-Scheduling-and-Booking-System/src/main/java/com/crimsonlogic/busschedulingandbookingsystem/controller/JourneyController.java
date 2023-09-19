@@ -125,8 +125,22 @@ public class JourneyController {
 		} catch (ResourceNotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
-    	
+
     }
+
+	@GetMapping("/byDateAndCities/{journeyDate}/{departureCity}/{arrivalCity}")
+	public ResponseEntity<List<Journey>> findJourneysByDateAndCities(
+			@PathVariable("journeyDate")  String journeyDate,
+			@PathVariable("departureCity") String departureCity,
+			@PathVariable("arrivalCity") String arrivalCity) {
+		List<Journey> journeys = journeyService.findJourneysByDateAndCities(LocalDate.parse(journeyDate), departureCity, arrivalCity);
+
+		if (journeys != null) {
+			return ResponseEntity.ok(journeys);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 	
 
 	

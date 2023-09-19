@@ -5,31 +5,21 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.crimsonlogic.busschedulingandbookingsystem.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.crimsonlogic.busschedulingandbookingsystem.entity.Booking;
-import com.crimsonlogic.busschedulingandbookingsystem.entity.Journey;
-import com.crimsonlogic.busschedulingandbookingsystem.entity.Payment;
-import com.crimsonlogic.busschedulingandbookingsystem.entity.User;
 import com.crimsonlogic.busschedulingandbookingsystem.exception.ResourceNotFoundException;
 import com.crimsonlogic.busschedulingandbookingsystem.service.IBookingService;
 import com.crimsonlogic.busschedulingandbookingsystem.service.IJourneyService;
 import com.crimsonlogic.busschedulingandbookingsystem.service.IPaymentService;
 import com.crimsonlogic.busschedulingandbookingsystem.service.IUserService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
 
 @CrossOrigin("*")
 @RestController
@@ -55,10 +45,23 @@ public class BookingController {
 
 	@PostMapping("/add/{username}/{journeyId}/{paymentId}")
 	public ResponseEntity<?> saveBooking(@PathVariable("username") String UserName,
-			@PathVariable("journeyId") Integer journeyId, @PathVariable("paymentId") Integer paymentId,
-			@Valid @RequestBody Booking booking, BindingResult bindingResult) {
+										 @PathVariable("journeyId") Integer journeyId, @PathVariable("paymentId") Integer paymentId,
+										 @Valid @RequestBody Booking booking, BindingResult bindingResult) {
 
 		try {
+
+
+			if (bindingResult.hasErrors()) {
+				// Handle validation errors
+				StringBuilder errorMessage = new StringBuilder();
+				for (FieldError fieldError : bindingResult.getFieldErrors()) {
+					errorMessage.append(fieldError.getField()).append(": ").append(fieldError.getDefaultMessage())
+							.append("; ");
+				}
+				return ResponseEntity.badRequest().body(errorMessage.toString());
+			}
+
+
 			User user = userService.findByUsername(UserName)
 					.orElseThrow(() -> new ResourceNotFoundException("User", "UserName", UserName));
 			Journey journey = journeyServic.viewJourneyById(journeyId);
@@ -71,15 +74,6 @@ public class BookingController {
 
 			Booking createdBooking = bookingService.saveBooking(booking);
 
-			if (bindingResult.hasErrors()) {
-				// Handle validation errors
-				StringBuilder errorMessage = new StringBuilder();
-				for (FieldError fieldError : bindingResult.getFieldErrors()) {
-					errorMessage.append(fieldError.getField()).append(": ").append(fieldError.getDefaultMessage())
-							.append("; ");
-				}
-				return ResponseEntity.badRequest().body(errorMessage.toString());
-			}
 
 			return ResponseEntity.status(HttpStatus.CREATED).body(createdBooking);
 
@@ -107,5 +101,8 @@ public class BookingController {
 	public void deleteBookingById(@PathVariable Integer bookingId) {
 		bookingService.deleteBookingById(bookingId);
 	}
+
+
+
 
 }

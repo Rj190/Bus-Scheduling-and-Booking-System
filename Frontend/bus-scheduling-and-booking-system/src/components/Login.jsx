@@ -13,7 +13,7 @@ import Modal from 'antd/es/modal/index';
 import '../css/LoginForm.css'; // Import your CSS file here
 
 import AuthService from '../services/Auth.service';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useUser } from './UserContext';
 
 const LoginForm = () => {
@@ -22,7 +22,7 @@ const LoginForm = () => {
         username: '',
         password: '',
     };
-    const { setUserRole,setJwtToken, setUserName } = useUser();
+    const { setUserRole, setJwtToken, setUserName } = useUser();
 
     const validationSchema = Yup.object().shape({
         username: Yup.string().required('Username is required'),
@@ -32,14 +32,14 @@ const LoginForm = () => {
     const handleSubmit = async (values, { setSubmitting }) => {
         try {
             const response = await AuthService.login(values);
-    
+
             if (response.status === 200) {
                 setSubmitting(false);
-        
+
                 const username = response.data.username;
                 const role = response.data.userRole;
                 const jwtToken = response.data.jwtToken;
-          
+
                 // Store the JWT token and user role in local storage
                 localStorage.setItem('jwtToken', jwtToken);
                 localStorage.setItem('userRole', role);
@@ -59,7 +59,7 @@ const LoginForm = () => {
                         )
                     });
                     // Navigate to the admin page (Sidebar)
-                    navigate('/admin'); // You can update this route as needed
+                    navigate('/admin/'); // You can update this route as needed
                 } else if (role === 'User') {
                     Modal.success({
                         title: "Login Successful",
@@ -68,7 +68,7 @@ const LoginForm = () => {
                         )
                     });
                     // Navigate to the user's wallet page
-                    navigate('/wallet');
+                    navigate('/');
                 } else {
                     // Handle other roles or unknown roles
                     Modal.error({
@@ -89,7 +89,7 @@ const LoginForm = () => {
             }
         } catch (error) {
             console.error(error);
-           // console.log(error.response);
+            // console.log(error.response);
             Modal.error({
                 title: "Error",
                 content: (
@@ -98,7 +98,7 @@ const LoginForm = () => {
             });
         }
     };
-    
+
     return (
         <div className="login-container">
             <div className="text-center">
@@ -153,9 +153,14 @@ const LoginForm = () => {
                         >
                             {isSubmitting ? 'Logging in...' : 'Login'}
                         </Button>
+
                     </Form>
                 )}
             </Formik>
+            <div className="mt-3 text-center">
+                <span>Don't have an account? </span>
+                <Link to="/reg">Register</Link>
+            </div>
         </div>
     );
 };

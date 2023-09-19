@@ -34,6 +34,7 @@ public class Cancellation {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "bookingId_fk")
+
 	private Booking booking;
 
 }

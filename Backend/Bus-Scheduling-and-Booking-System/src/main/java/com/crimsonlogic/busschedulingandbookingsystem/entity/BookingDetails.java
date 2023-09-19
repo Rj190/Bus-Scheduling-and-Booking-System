@@ -24,6 +24,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Data
+@NoArgsConstructor
 public class BookingDetails {
 	
 	@Id
@@ -37,12 +38,12 @@ public class BookingDetails {
 	
 	@OneToOne
 	@JoinColumn(name = "seatId_fk")
-	//@JsonIgnoreProperties("bookingDetails")
+	@JsonIgnoreProperties("bookingDetails")
 	private Seat seat;
 	
 	@OneToOne
 	@JoinColumn(name = "passengerId_fk")
-	//@JsonIgnoreProperties("bookingDetails")
+	@JsonIgnoreProperties("bookingDetails")
 	private Passenger passenger;
 
 }

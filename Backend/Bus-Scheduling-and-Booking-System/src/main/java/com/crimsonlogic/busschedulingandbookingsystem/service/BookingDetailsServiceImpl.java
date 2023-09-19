@@ -1,5 +1,7 @@
 package com.crimsonlogic.busschedulingandbookingsystem.service;
 
+import com.crimsonlogic.busschedulingandbookingsystem.entity.Booking;
+import com.crimsonlogic.busschedulingandbookingsystem.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,9 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
 
     @Autowired
     private BookingDetailsRepository bookingDetailsRepository;
+
+    @Autowired
+    private BookingRepository bookingRepository;
 
  
 
@@ -58,6 +63,11 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
         bookingDetailsRepository.deleteById(id);
     }
 
+    @Override
+    public List<BookingDetails>  getBookingDetailsByBookingId(Integer bookingId) {
+        Booking booking = bookingRepository.findById(bookingId).get();
+        return bookingDetailsRepository.findAllByBooking(booking);
+    }
 
 
 }

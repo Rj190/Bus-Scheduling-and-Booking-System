@@ -1,5 +1,6 @@
 package com.crimsonlogic.busschedulingandbookingsystem.service;
 
+import com.crimsonlogic.busschedulingandbookingsystem.repository.IRouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ public class JourneyServiceImpl implements IJourneyService {
 
     @Autowired
     private IJourneyRepository journeyRepository;
+
+    @Autowired
+    private IRouteRepository routeRepository;
 
     @Override
     public List<Journey> viewAllJourneys() {
@@ -87,5 +91,19 @@ public class JourneyServiceImpl implements IJourneyService {
     @Override
     public List<Journey> viewJourneysByRouteAndDate(Integer routeId, LocalDate journeyDate) {
         return journeyRepository.findAllByRoute_RouteIdAndJourneyDate(routeId, journeyDate);
+    }
+
+
+    @Override
+    public List<Journey> findJourneysByDateAndCities(LocalDate journeyDate, String departureCity, String arrivalCity) {
+        // First, find the route based on departure and arrival cities
+        Route route = routeRepository.findByDepartureCityAndArrivalCity(departureCity, arrivalCity);
+
+        if (route != null) {
+            // Then, find journeys by journey date and the found route
+            return journeyRepository.findAllByRoute_RouteIdAndJourneyDate(route.getRouteId(), journeyDate);
+        }
+
+        return null; // Return null or handle the case where the route is not found
     }
 }

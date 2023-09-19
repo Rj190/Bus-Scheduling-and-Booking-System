@@ -6,6 +6,7 @@ export const UserProvider = ({ children }) => {
   const [userRole, setUserRole] = useState(null);
   const [jwtToken, setJwtToken] = useState(null);
   const [username, setUserName] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Add isAuthenticated state
 
   useEffect(() => {
     // Check local storage for JWT token and user role
@@ -17,11 +18,12 @@ export const UserProvider = ({ children }) => {
       setJwtToken(storedJwtToken);
       setUserRole(storedUserRole);
       setUserName(storedUsername);
+      setIsAuthenticated(true); // Set isAuthenticated to true
     }
   }, []);
 
   return (
-    <UserContext.Provider value={{ userRole, setUserRole, jwtToken, setJwtToken, username, setUserName }}>
+    <UserContext.Provider value={{ userRole, setUserRole, jwtToken, setJwtToken, username, setUserName, isAuthenticated ,setIsAuthenticated}}>
       {children}
     </UserContext.Provider>
   );

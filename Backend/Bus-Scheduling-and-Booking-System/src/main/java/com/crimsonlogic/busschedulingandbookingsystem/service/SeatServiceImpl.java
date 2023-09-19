@@ -34,16 +34,17 @@ public class SeatServiceImpl implements ISeatService {
 
 	@Override
 	public Seat updateSeatById(int seatId, Seat newseat) {
-		  { 
+
 			  Seat existingSeat=viewSeatById(seatId);  
 			  if(existingSeat != null) {
 				  existingSeat.setSeatNumber(newseat.getSeatNumber());
+				  existingSeat.setSeatAvailabilityStatus(newseat.getSeatAvailabilityStatus());
 				  
 			  }else {
 				  System.out.println("SeatId not found");
 			  }
 			  return existingSeat; 
-		  }
+
 	}
 
 	@Override

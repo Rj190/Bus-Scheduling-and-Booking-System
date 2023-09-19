@@ -1,0 +1,16 @@
+
+.passenger-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Adjust the gap as needed */
+}
+
+.passenger-form-field {
+  border: 1px solid #ccc;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px; /* Adjust the margin as needed */
+}
+
+/* Add more styles as needed for your specific design */

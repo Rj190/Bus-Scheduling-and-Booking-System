@@ -55,11 +55,13 @@ public class User implements UserDetails {
     private String userRole; // Role can be "User" or "Admin"
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties("user")
     private List<Booking> bookings;
-    
+
     @OneToOne(mappedBy = "user")
     @JsonIgnoreProperties("user")
     private Wallet wallet;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

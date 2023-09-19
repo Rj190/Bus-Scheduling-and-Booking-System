@@ -13,4 +13,5 @@ public interface BookingDetailsService {
     BookingDetails createBookingDetails(BookingDetails bookingDetails);
     BookingDetails updateBookingDetails(Integer id, BookingDetails bookingDetails);
     void deleteBookingDetails(Integer id);
+    List<BookingDetails> getBookingDetailsByBookingId(Integer bookingId);
 }

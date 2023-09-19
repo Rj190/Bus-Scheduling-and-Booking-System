@@ -30,4 +30,6 @@ public interface IJourneyService {
 	List<Journey> viewJourneysByBusAndDate(Integer busId, LocalDate journeyDate);
 
 	List<Journey> viewJourneysByRouteAndDate(Integer routeId, LocalDate journeyDate);
+
+	List<Journey> findJourneysByDateAndCities(LocalDate journeyDate, String departureCity, String arrivalCity);
 }

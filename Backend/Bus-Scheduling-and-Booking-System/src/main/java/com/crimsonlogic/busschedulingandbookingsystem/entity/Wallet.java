@@ -1,5 +1,7 @@
 package com.crimsonlogic.busschedulingandbookingsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,11 +23,13 @@ public class Wallet {
 	@Column(name="walletbalance")
 	@NotNull
 	private double walletBalance;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "userID_fk")
+	@JsonIgnoreProperties("wallet")
 	private User user;
-	
+
+
 	public User getUser() {
 		return user;
 	}

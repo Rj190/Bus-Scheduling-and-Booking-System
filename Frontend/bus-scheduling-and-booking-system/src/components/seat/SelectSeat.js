@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
   Grid,
@@ -27,8 +27,10 @@ import './Seats.css';
 
 import PassengerForm from './PassengerForm';
 
+import { Modal } from 'antd';
+
 function Seats() {
-  const { id } = useParams();
+  const { journeyId } = useParams();
   const [seatData, setSeatData] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [message, setMessage] = useState('');
@@ -37,12 +39,28 @@ function Seats() {
   const [totalFare, setTotalFare] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [passengerForms, setPassengerForms] = useState([]);
+  const [data, setData] = useState([]);
+  const navigate = useNavigate();
+  const [city ,setCity] = useState('');
 
   useEffect(() => {
+
+    const username = localStorage.getItem('username');
+    if (!username) {
+      // Show a popup if username is null
+      Modal.error({
+        title: 'Error',
+        content: 'Please log in.',
+        onOk: () => navigate('/login'), // Navigate to login page
+      });
+      return;
+    }
     async function fetchSeatData() {
       try {
-        const response = await axios.get(`http://localhost:8080/api/journeys/${id}`);
+        const response = await axios.get(`http://localhost:8080/api/journeys/${journeyId}`);
         if (response && response.data) {
+          setData(response.data);
+          setCity(response.data.route.departureCity +"- "+response.data.route.arrivalCity);
           const seats = response.data.bus.seats;
           setFare(response.data.fare);
           setSeatData(seats);
@@ -54,7 +72,7 @@ function Seats() {
       }
     }
     fetchSeatData();
-  }, [id]);
+  }, [journeyId]);
 
   const isSeatAvailable = (seatNo) => {
     return seatData.find((seat) => seat.seatNumber === seatNo)?.seatAvailabilityStatus === 'Available';
@@ -86,7 +104,10 @@ function Seats() {
     if (selectedSeats.length > 0) {
       // Initialize the passenger forms array with data for the selected seats
       const initialPassengerForms = selectedSeats.map((seatNo) => ({
+        
         seatNumber: seatNo,
+        busId : data.bus.busId,
+        seat :data.bus.seats.find((seat) => seat.seatNumber == seatNo),
         passengerData: {
           passengerName: '',
           passengerLastName: '',
@@ -96,6 +117,10 @@ function Seats() {
           passengerEmail: '',
         },
       }));
+
+      console.log(initialPassengerForms);
+
+
 
       // Set the passenger forms in state
       setPassengerForms(initialPassengerForms);
@@ -112,7 +137,7 @@ function Seats() {
     setIsDialogOpen(false);
   };
 
-  const handleConfirmPayment = () => {
+  const handleConfirmPayment = async () => {
     // Validate that passenger data is provided for all selected seats
     const isPassengerDataValid = passengerForms.every(
       (form) =>
@@ -131,11 +156,12 @@ function Seats() {
 
       // Store passenger data and bus ID in local storage for payment page
       localStorage.setItem('passengerData', JSON.stringify(passengerForms));
-      localStorage.setItem('busId', id);
+      localStorage.setItem('journeyId', journeyId);
       localStorage.setItem('totalFare', calculatedTotalFare);
 
+     // console.log(passengerForms);
       // Redirect to the payment page if needed
-      // navigate('/payment');
+      navigate('/payment');
     } else {
       setMessage('Please provide passenger details for all selected seats.');
       setOpen(true);
@@ -164,7 +190,7 @@ function Seats() {
     // Calculate the total fare based on the number of selected seats
     const numberOfSeats = selectedSeats.length;
     const calculatedTotalFare = fare * numberOfSeats;
-    setTotalFare(`Total Fare: $${calculatedTotalFare}`);
+    setTotalFare(`Total Fare: ₹${calculatedTotalFare}`);
   }, [selectedSeats, fare]);
 
   const renderSeats = () => {
@@ -209,6 +235,7 @@ function Seats() {
 
   return (
     <div className="mainContainer">
+      <h1>{city}</h1>
       <h2>Select Seats</h2>
       <div className="container">
         {renderSeats()}
@@ -223,7 +250,7 @@ function Seats() {
                   <li key={seatNo}>Seat {seatNo}</li>
                 ))}
               </ul>
-              <p>Total Fare: {totalFare}</p>
+              <p>{totalFare}</p>
               <Button variant="contained" color="primary" onClick={handlePayment}>
                 Pay for Seats
               </Button>

@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -42,23 +43,28 @@ public class Booking {
 	private int bookingTotalFare;
 	
 	private int bookingNumPassengers;
-	
+
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "userId_fk")
 	@JsonIgnoreProperties("bookings")
 	private User user;
-	
+
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "journeyId_fk")
 	@JsonIgnoreProperties("bookings")
 	private Journey journey;
-	
+
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "paymentId_fk")
 	@JsonIgnoreProperties("bookings")
 	private Payment payment;
-	
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "booking")
+	@JsonIgnoreProperties("booking")
 	private List<BookingDetails> bookingDetails;
 
 

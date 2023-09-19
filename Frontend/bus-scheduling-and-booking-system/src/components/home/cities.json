@@ -1,0 +1,170 @@
+[
+    {
+        "key": "ben",
+        "val": "Bengaluru"
+      },
+      {
+        "key": "del",
+        "val": "New Delhi"
+      },
+      {
+        "key": "mum",
+        "val": "Mumbai"
+      },
+      {
+        "key": "kol",
+        "val": "Kolkata"
+      },
+      {
+        "key": "che",
+        "val": "Chennai"
+      },
+      {
+        "key": "hyd",
+        "val": "Hyderabad"
+      },
+      {
+        "key": "pun",
+        "val": "Pune"
+      },
+      {
+        "key": "ahm",
+        "val": "Ahmedabad"
+      },
+      {
+        "key": "ana",
+        "val": "Anantapur"
+      },
+      {
+        "key": "chi",
+        "val": "Chittoor"
+      },
+      {
+        "key": "raj",
+        "val": "Rajahmundry"
+      },
+      {
+        "key": "vij",
+        "val": "Vijayawada"
+      },
+      {
+        "key": "viz",
+        "val": "Visakhapatnam"
+      },
+      {
+        "key": "kad",
+        "val": "Kadapa"
+      },
+      {
+        "key": "gunt",
+        "val": "Guntur"
+      },
+      {
+        "key": "kri",
+        "val": "Kurnool"
+      },
+      {
+        "key": "ong",
+        "val": "Ongole"
+      },
+      {
+        "key": "nar",
+        "val": "Narsaraopet"
+      },
+      {
+        "key": "ela",
+        "val": "Eluru"
+      },
+      {
+        "key": "ten",
+        "val": "Tenali"
+      },
+      {
+        "key": "hna",
+        "val": "Hindupur"
+      },
+      {
+        "key": "anak",
+        "val": "Anakapalle"
+      },
+      {
+        "key": "srik",
+        "val": "Srikakulam"
+      },
+      {
+        "key": "dharm",
+        "val": "Dharmavaram"
+      },
+      {
+        "key": "kar",
+        "val": "Kakinada"
+      },
+      {
+        "key": "mad",
+        "val": "Madanapalle"
+      },
+      {
+        "key": "nuz",
+        "val": "Nuzvid"
+      },
+      {
+        "key": "mach",
+        "val": "Machilipatnam"
+      },
+      {
+        "key": "chir",
+        "val": "Chirala"
+      },
+      {
+        "key": "war",
+        "val": "Warangal"
+      },
+      {
+        "key": "kar",
+        "val": "Karimnagar"
+      },
+      {
+        "key": "ram",
+        "val": "Ramagundam"
+      },
+      {
+        "key": "kha",
+        "val": "Khammam"
+      },
+      {
+        "key": "mah",
+        "val": "Mahbubnagar"
+      },
+      {
+        "key": "niz",
+        "val": "Nizamabad"
+      },
+      {
+        "key": "sec",
+        "val": "Secunderabad"
+      },
+      {
+        "key": "sik",
+        "val": "Sikandarabad"
+      },
+      {
+        "key": "sir",
+        "val": "Suryapet"
+      },
+      {
+        "key": "mir",
+        "val": "Miryalaguda"
+      },
+      {
+        "key": "nar",
+        "val": "Nalgonda"
+      },
+      {
+        "key": "kot",
+        "val": "Kothagudem"
+      },
+      {
+        "key": "bhon",
+        "val": "Bhongir"
+      }
+]

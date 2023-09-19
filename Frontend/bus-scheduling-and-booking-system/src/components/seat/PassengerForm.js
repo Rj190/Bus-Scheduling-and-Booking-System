@@ -15,7 +15,8 @@ import {
   Button,
 } from '@mui/material';
 
-import './Seats.css';
+import './PassengerForm.css';
+
 
 function PassengerForm({ isOpen, onClose, passengerForms, handlePassengerDataChange, handleConfirmPayment }) {
   return (
@@ -33,7 +34,7 @@ function PassengerForm({ isOpen, onClose, passengerForms, handlePassengerDataCha
                 fullWidth
                 onChange={(e) => handlePassengerDataChange(form.seatNumber, 'passengerName', e.target.value)}
               />
-              $nbsp
+            
               <TextField
                 label="Last Name"
                 fullWidth

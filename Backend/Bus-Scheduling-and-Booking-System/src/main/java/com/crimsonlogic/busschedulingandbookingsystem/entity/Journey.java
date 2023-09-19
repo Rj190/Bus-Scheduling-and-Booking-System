@@ -78,6 +78,7 @@ public class Journey {
     
     
     @OneToMany(mappedBy = "journey")
+    @JsonIgnoreProperties("journey")
     private List<Booking> bookings ;
     
 

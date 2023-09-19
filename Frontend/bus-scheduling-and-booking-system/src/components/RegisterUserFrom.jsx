@@ -16,7 +16,7 @@ import UserService from '../services/User.service';
 import Modal from 'antd/es/modal/index';
 
 import '../css/RegistrationForm.css'; // Import your CSS file here
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import WalletService from '../services/Wallet.Service';
 
 const RegistrationForm = () => {
@@ -208,6 +208,10 @@ const RegistrationForm = () => {
                         >
                             {isSubmitting ? 'Registering...' : 'Register'}
                         </Button>
+                        <div className="mt-3 text-center">
+                            <span>Already have an account? </span>
+                            <Link to="/login">Login</Link>
+                        </div>
                     </Form>
                 )}
             </Formik>

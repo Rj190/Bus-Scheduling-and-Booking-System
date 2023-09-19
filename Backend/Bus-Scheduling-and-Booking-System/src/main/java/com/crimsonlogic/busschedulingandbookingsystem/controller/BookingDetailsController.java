@@ -1,5 +1,6 @@
 package com.crimsonlogic.busschedulingandbookingsystem.controller;
 
+import com.crimsonlogic.busschedulingandbookingsystem.service.ISeatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import com.crimsonlogic.busschedulingandbookingsystem.service.IPassengerService;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("api/booking-details")
 public class BookingDetailsController {
@@ -29,7 +31,10 @@ public class BookingDetailsController {
 	@Autowired
 	private IPassengerService passengerService;
 
-	@GetMapping
+	@Autowired
+	private ISeatService seatService;
+
+	@GetMapping("/all")
 	public ResponseEntity<?> getAllBookingDetails() {
 		List<BookingDetails> bookingDetails = bookingDetailsService.getAllBookingDetails();
 		return ResponseEntity.ok(bookingDetails);
@@ -43,19 +48,22 @@ public class BookingDetailsController {
 
 	@PostMapping("/{bookingId}/{seatId}/{passengerId}")
 	public ResponseEntity<?> createBookingDetails(@PathVariable("bookingId") Integer bookingId,
-			@PathVariable("seatId") Integer seatId, @PathVariable("passengerId") Integer passengerId,
-			@RequestBody BookingDetails bookingDetails) {
+			@PathVariable("seatId") Integer seatId, @PathVariable("passengerId") Integer passengerId) {
 
 		try {
 
 			Booking booking = bookingService.getBookingById(bookingId)
 					.orElseThrow(() -> new ResourceNotFoundException("Booking", "Booking ID", bookingId));
-			List<Seat> seats = booking.getJourney().getBus().getSeats();
-			Seat seat = (Seat) seats.stream().map(exSeat -> exSeat.getSeatId().compareTo(seatId));
+			Seat seat = seatService.viewSeatById(seatId);
+			//Seat seat = (Seat) seats.stream().map(exSeat -> exSeat.getSeatId().compareTo(seatId));
 			Passenger passenger = passengerService.getPassengerById(passengerId);
+
 			if (seat != null) {
+				seat.setSeatAvailabilityStatus("Booked");
+				Seat updateSeat = seatService.updateSeatById(seatId,seat);
+				BookingDetails bookingDetails = new BookingDetails();
 				bookingDetails.setBooking(booking);
-				bookingDetails.setSeat(seat);
+				bookingDetails.setSeat(updateSeat);
 				bookingDetails.setPassenger(passenger);
 				BookingDetails createdBookingDetails = bookingDetailsService.createBookingDetails(bookingDetails);
 				return ResponseEntity.status(HttpStatus.CREATED).body(createdBookingDetails);
@@ -86,5 +94,10 @@ public class BookingDetailsController {
 	public ResponseEntity<Void> deleteBookingDetails(@PathVariable Integer id) {
 		bookingDetailsService.deleteBookingDetails(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/getbybookingid/{bookingId}")
+	public List<BookingDetails>  getBookingDetailsByBookingId(@PathVariable("bookingId") Integer bookingId) {
+		return bookingDetailsService.getBookingDetailsByBookingId(bookingId);
 	}
 }

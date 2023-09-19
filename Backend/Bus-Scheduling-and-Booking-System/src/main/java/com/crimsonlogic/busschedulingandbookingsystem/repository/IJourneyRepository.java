@@ -23,4 +23,6 @@ public interface IJourneyRepository extends JpaRepository<Journey, Integer> {
     List<Journey> findAllByBus_BusIdAndJourneyDate(Integer busId, LocalDate journeyDate);
 
     List<Journey> findAllByRoute_RouteIdAndJourneyDate(Integer routeId, LocalDate journeyDate);
+
+
 }

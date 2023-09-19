@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -37,9 +38,10 @@ public class Payment {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "walletId_fk")
 	private Wallet wallet;
-	
-    @OneToMany(mappedBy = "payment")
-    private List<Booking> bookings ;
-    
+
+	@OneToMany(mappedBy = "payment")
+	@JsonIgnoreProperties("payment")
+	private List<Booking> bookings;
+
 
 }

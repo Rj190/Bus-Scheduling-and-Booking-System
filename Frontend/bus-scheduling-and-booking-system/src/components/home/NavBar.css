@@ -1,0 +1,57 @@
+/* NavBar.css */
+
+/* Style the entire navigation bar */
+.navbar-container {
+    background-color: #ffffff; /* Background color for the navigation bar */
+    color: #090909; /* Text color */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px; /* Adjust padding as needed */
+    font-family: Arial, sans-serif; /* Choose your font family */
+  }
+  
+  /* Style the logo or site name */
+  .navbar-logo {
+    font-size: 24px; /* Font size for the logo */
+    font-weight: bold; /* Bold font weight */
+    text-decoration: none;
+  }
+  
+  /* Style the links in the navigation bar */
+  .navbar-links {
+    display: flex;
+    gap: 20px; /* Adjust spacing between links */
+  }
+  
+  /* Style individual links */
+  .navbar-link {
+    text-decoration: none;
+    color: #000000; /* Text color for links */
+    font-weight: bold; /* Bold font weight */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+  }
+  
+  /* Style the "Welcome" message */
+  .navbar-welcome {
+    font-size: 18px; /* Font size for the welcome message */
+    margin-right: 20px; /* Margin to separate it from links */
+  }
+  
+  /* Style the Sign In and Sign Up buttons */
+  .navbar-button {
+    background-color: #ff5722; /* Background color for buttons */
+    color: #fff; /* Text color for buttons */
+    border: none;
+    padding: 10px 20px; /* Adjust padding as needed */
+    border-radius: 5px; /* Rounded corners for buttons */
+    cursor: pointer;
+    font-weight: bold; /* Bold font weight */
+    transition: background-color 0.3s ease; /* Smooth background color transition on hover */
+  }
+  
+  /* Hover effect for buttons */
+  .navbar-button:hover {
+    background-color: #e64a19; /* Change to your desired hover color */
+  }
+  

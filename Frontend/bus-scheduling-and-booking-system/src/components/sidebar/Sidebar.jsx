@@ -12,6 +12,7 @@ import {
   FaHandHoldingUsd,
   FaComment,
   FaBed,
+  FaHome,
 
 } from "react-icons/fa";
 
@@ -30,6 +31,7 @@ import Logout from "../Logout";
 import Wallet from "../Wallet";
 import { useNavigate } from 'react-router-dom';
 import { Modal, Input, message } from 'antd';
+import MyBookings from "../bookings/MyBookings";
 
 const Sidebar = () => {
 
@@ -41,21 +43,21 @@ const Sidebar = () => {
   const handleCloseMenu = () => {
     setCloseMenu(!closeMenu);
   };
+  const [modalVisible, setModalVisible] = useState(false);
 
-
-
-
-  if (!username) {
-    // Show a popup if username is null
-    Modal.error({
-      title: 'Error',
-      content: 'Please log in.',
-      onOk: () => navigate('/login'), // Navigate to login page
-    });
-    return;
-  }
-
-
+  useEffect(() => {
+    if (!username && !modalVisible) {
+      Modal.error({
+        title: 'Error',
+        content: 'Please log in.',
+        onOk: () => {
+          setModalVisible(false); // Close the modal
+          navigate('/login');
+        },
+      });
+    }
+  }, [username, modalVisible]);
+  
 
   return (
     <>
@@ -97,6 +99,12 @@ const Sidebar = () => {
               }
             >
               <ul>
+
+              <li className={location.pathname === "/admin/" ? "active" : ""}>
+                  <FaHome />
+                  <Link to="/admin/">Home</Link>
+                </li>
+
                 <li className={location.pathname === "/admin/bus" ? "active" : ""}>
                   <FaBus />
                   <Link to="/admin/bus">bus</Link>
@@ -121,18 +129,9 @@ const Sidebar = () => {
                   <FaHandHoldingUsd />
                   <Link to="/admin/cancellation">cancellation</Link>
                 </li>
-
-                {/* <li className={location.pathname === "/passenger" ? "active" : ""}>
-            <FaUserFriends />
-            <a href="/passenger">passenger</a>
-          </li> */}
                 <li className={location.pathname === "/admin/payment" ? "active" : ""}>
                   <FaMoneyBillWave />
                   <Link to="/admin/payment">payment</Link>
-                </li>
-                <li className={location.pathname === "/admin/user" ? "active" : ""}>
-                  <FaUser />
-                  <Link to="/admin/user">user</Link>
                 </li>
                 <li className={location.pathname === "/admin/feedback" ? "active" : ""}>
                   <FaComment />
@@ -155,6 +154,7 @@ const Sidebar = () => {
             <Route path='/route' element={<RouteManagement />} />
             <Route path='/journey' element={<JourneyManagement />} />
             <Route path="/wallet" element={<Wallet/>} />
+            <Route path="/booking" element={<MyBookings/>} />
           </Routes>
 
         </>
