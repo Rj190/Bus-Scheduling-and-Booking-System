@@ -1,7 +1,0 @@
-
-P
-java:S1128":Remove this unused import 'javax.persistence.CascadeType'.( ì¤Ê
-J
-java:S1128"5Remove this unused import 'javax.persistence.Column'.(ìûæH
-M
-java:S1128"8Remove this unused import 'javax.persistence.OneToMany'.(«õù;
